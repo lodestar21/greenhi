@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>application properties</comment>
+	<entry key="server.name">Dev</entry>
+	<entry key="dataSource.url">jdbc:mysql://1.234.79.234:3306/greenhi_db?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</entry>
+	<entry key="dataSource.username">greenhi</entry>
+	<entry key="dataSource.password">greenhi3#</entry>
+</properties>

@@ -1,0 +1,5 @@
+status.ok=정상적으로 처리되었습니다.
+status.failed=실패하였습니다.
+status.error=오류가 발생하였습니다.
+status.unauthorized={0} 권한이 없습니다.
+status.not_found=요청하신 데어타가 존재하지 않습니다.
