@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.greenhi</groupId>
 	<artifactId>greenhi</artifactId>
-	<name>greenhi_admin</name>
+	<name>greenhi</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
