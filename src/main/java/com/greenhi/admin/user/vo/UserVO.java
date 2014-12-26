@@ -23,6 +23,7 @@ public class UserVO extends PagingVO {
 	private String custName;
 	private int localCode;
 	private String email;
+	private String phoneNumber;
 	private int userStat;
 	private String passWord;
 	private int depositBank;
@@ -47,6 +48,13 @@ public class UserVO extends PagingVO {
 
 	private String saveId;
 
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 	public boolean isSaveIdFlag() {
 
 		return "Y".equals( saveId );

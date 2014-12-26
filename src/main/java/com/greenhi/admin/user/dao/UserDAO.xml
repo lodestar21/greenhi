@@ -17,6 +17,7 @@
             , A.CUST_NAME        AS custName
             , A.LOCAL_CODE       AS localCode
             , A.EMAIL            AS email
+            , A.PHONE_NUMBER     AS phoneNumber
             , A.USER_STAT        AS userStat
             , A.PASS_WORD        AS passWord
             , A.DEPOSIT_BANK     AS depositBank
