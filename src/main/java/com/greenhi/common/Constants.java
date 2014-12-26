@@ -23,9 +23,9 @@ public class Constants {
 	public final static String ADMIN_INFO_KEY = "_USER_INFO_";
 	
 	/**
-	 * 로그인 이메일 쿠키 변수
+	 * 로그인 아이디 쿠키 변수
 	 */
-	public final static String ADMIN_SAVE_EMAIL_KEY = "_ADMIN_SAVE_EMAIL_";
+	public final static String ADMIN_SAVE_ID_KEY = "_ADMIN_SAVE_ID_";
 	
 	/**
 	 * 사용자 이전 URL
@@ -45,20 +45,20 @@ public class Constants {
 	
 	/**
 	 * 사용자_유형코드 (100)
-	 * 사용자
+	 * 은행 관리자
 	 */
 	public static final int USER_TYPCD_102 = 102;
 	
 	/**
-	 * 회원상태코드(200)
-	 * 정상
+	 * 사용자_유형코드 (100)
+	 * 사용자
 	 */
-	public static final int USER_STTUSCD_201 = 201;
+	public static final int USER_TYPCD_103 = 103;
 	
 	/**
 	 * 회원상태코드(200)
-	 * 삭제
+	 * 재직
 	 */
-	public static final int USER_STTUSCD_202 = 202;
+	public static final int USER_STAT_201 = 201;
 
 }

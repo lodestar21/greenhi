@@ -42,12 +42,12 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		String endUrl = urlArray[urlArray.length - 1];
-
+		
 		if ( session.getAttribute( Constants.ADMIN_INFO_KEY ) != null ) {
-
+			
 			logger.debug( "session get attribuete success" );
 			return true;
-
+			
 		} else if ( loginUrl.equals( endUrl ) ) {
 
 			return true;
