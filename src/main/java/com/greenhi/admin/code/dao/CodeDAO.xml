@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenhi.admin.code.dao.CodeDAO">
+    <select id="listChildCode" parameterType="com.greenhi.admin.code.vo.CodeVO" resultType="com.greenhi.admin.code.vo.CodeVO">
+    <![CDATA[
+        SELECT
+             A.CODE_ID        AS codeId
+           , A.CREATE_TIME    AS createTime
+           , A.CREATE_USER    AS createUser
+           , A.MODIFY_TIME    AS modifyTime
+           , A.MODIFY_USER    AS modifyUser
+           , A.IS_USE         AS isUse
+           , A.UPER_CODE      AS uperCode
+           , A.CODE_NAME      AS codeName
+           , A.SORT_ORDR      AS sortOrdr
+           , A.REMARK         AS remark
+        FROM T_CODE A
+       WHERE A.IS_DELETE = 'N'
+         AND A.UPER_CODE IS NOT NULL
+         AND A.UPER_CODE > 0
+         AND A.UPER_CODE = #{uperCode}
+    ]]>
+        ORDER BY A.SORT_ORDR ASC
+    </select>
+    
+    <select id="list" parameterType="com.greenhi.admin.code.vo.CodeVO" resultType="com.greenhi.admin.code.vo.CodeVO">
+    <![CDATA[
+        SELECT
+             A.CODE_ID        AS codeId
+           , A.CREATE_TIME    AS createTime
+           , A.CREATE_USER    AS createUser
+           , A.MODIFY_TIME    AS modifyTime
+           , A.MODIFY_USER    AS modifyUser
+           , A.IS_USE         AS isUse
+           , A.UPER_CODE      AS uperCode
+           , A.CODE_NAME      AS codeName
+           , A.SORT_ORDR      AS sortOrdr
+           , A.REMARK         AS remark
+        FROM T_CODE A
+       WHERE A.IS_DELETE = 'N'
+         AND (A.UPER_CODE IS NULL OR A.UPER_CODE = 0)
+    ]]>
+        <if test="isUse != null and isUse != ''">
+            AND A.IS_USE = #{isUse}
+        </if>
+        
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.CODE_NAME = #{searchWord}
+            </if>
+            <if test="searchField == 2">
+            	AND A.CODE_NAME = #{searchWord}
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.CODE_NAME LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 2">
+            	AND A.CODE_NAME LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+        </if>
+        <if test="orderBy == 'ASC'">
+        	ORDER BY A.CODE_ID ASC
+        </if>
+        <if test="orderBy != 'ASC'">
+        	ORDER BY A.CODE_ID DESC
+        </if>
+        <if test="isExcel == false">
+        	LIMIT #{startIdx}, #{recordPerPage}
+        </if>
+    </select>
+    
+    <select id="listCount" parameterType="com.greenhi.admin.code.vo.CodeVO" resultType="int">
+    <![CDATA[
+        SELECT
+             COUNT(*) AS CNT
+        FROM T_CODE A
+       WHERE A.IS_DELETE = 'N'
+         AND (A.UPER_CODE IS NULL OR A.UPER_CODE = 0)
+    ]]>
+        <if test="isUse != null and isUse != ''">
+            AND A.IS_USE = #{isUse}
+        </if>
+        
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.CODE_NAME = #{searchWord}
+            </if>
+            <if test="searchField == 2">
+            	AND A.CODE_NAME = #{searchWord}
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.CODE_NAME LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 2">
+            	AND A.CODE_NAME LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+        </if>
+    </select>
+    
+    <select id="get" parameterType="com.greenhi.admin.code.vo.CodeVO" resultType="com.greenhi.admin.code.vo.CodeVO">
+    <![CDATA[
+        SELECT
+             A.CODE_ID        AS codeId
+           , A.CREATE_TIME    AS createTime
+           , A.CREATE_USER    AS createUser
+           , A.MODIFY_TIME    AS modifyTime
+           , A.MODIFY_USER    AS modifyUser
+           , A.IS_USE         AS isUse
+           , A.UPER_CODE      AS uperCode
+           , A.CODE_NAME      AS codeName
+           , A.SORT_ORDR      AS sortOrdr
+           , A.REMARK         AS remark
+        FROM T_CODE A
+    ]]>
+    	<trim prefix="WHERE" prefixOverrides="AND |OR ">
+	        <if test="codeId > 0 ">
+	            AND A.CODE_ID = #{codeId}
+	        </if>
+        </trim>
+    </select>
+    
+    <insert id="insertCode" parameterType="com.greenhi.admin.code.vo.CodeVO">
+        INSERT INTO T_CODE (
+              CODE_ID
+            , CREATE_TIME
+            , CREATE_USER
+            , MODIFY_TIME
+            , MODIFY_USER
+            , IS_DELETE
+            , IS_USE
+            , UPER_CODE
+            , CODE_NAME
+            , SORT_ORDR
+            , REMARK
+        ) VALUES (
+             #{codeId}
+            ,now()
+            ,#{createUser}
+            ,now()
+            ,0
+            ,'N'
+            ,#{isUse}
+            ,#{uperCode}
+            ,#{codeName}
+            ,#{sortOrdr}
+            ,#{remark}
+        )
+    </insert>
+    
+    <update id="updateCode" parameterType="com.greenhi.admin.code.vo.CodeVO">
+        UPDATE T_CODE SET
+              MODIFY_TIME = now()
+            , MODIFY_USER = #{modifyUser}
+            , IS_USE = #{isUse}
+            , SORT_ORDR = #{sortOrdr}
+            , UPER_CODE = #{uperCode}
+            , CODE_NAME = #{codeName}
+            , SORT_ORDR = #{sortOrdr}
+            , REMARK = #{remark}
+        WHERE CODE_ID = #{codeId}
+    </update>
+    
+    <select id="selectDuplicatedCdId" parameterType="com.greenhi.admin.code.vo.CodeVO" resultType="string">
+        SELECT CODE_NAME
+          FROM T_CODE
+         WHERE CODE_ID = #{codeId}         
+         LIMIT 0, 1
+    </select>
+    
+    <update id="deleteCode" parameterType="com.greenhi.admin.code.vo.CodeVO">
+        UPDATE T_CODE SET
+              IS_DELETE = #{isDelete}
+            , MODIFY_USER = #{modifyUser}
+            , MODIFY_TIME = now()
+        WHERE CODE_ID = #{codeId}
+    </update>
+</mapper>
