@@ -21,7 +21,7 @@
                         <img src="${contextPath}/resources/images/avartar.png" class="img-circle" alt="User Image" />
                     </div>
                     <div class="pull-left info">
-                        <p>${sessionScope._USER_INFO_.userName} - 최고 관리자</p>
+                        <p>${sessionScope._USER_INFO_.userName} - ${sessionScope._USER_INFO_.userTypeName}</p>
 						<i class="fa fa-circle text-success"></i> 가입일 : <fmt:formatDate value="${sessionScope._USER_INFO_.createTime}" pattern="yyyy-MM-dd" />
                     </div>
                 </div>

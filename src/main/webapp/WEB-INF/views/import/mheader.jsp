@@ -84,7 +84,5 @@
     
 	<script src="${contextPath}/resources/js/util.js?2014082101"></script>
 	<script src="${contextPath}/resources/js/user.js?2014082101"></script>
-	<script src="${contextPath}/resources/js/board.js?2014082101"></script>
 	<script src="${contextPath}/resources/js/code.js?2014082101"></script>
-	<script src="${contextPath}/resources/js/popup.js?2014082101"></script>
     

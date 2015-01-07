@@ -47,23 +47,23 @@
 							<div class="box-body">
 								<c:if test="${editMode != 'update'}">
 								<div class="form-group">
-									<label for="cdId" style="width: 150px;">코드 ID</label>
-									<input type="text" class="form-control input-sm" name="cdId" id="cdId" value="${code.cdId}" placeholder="코드 입력" style="display: table-caption;width:100px;">
+									<label for="codeId" style="width: 150px;">코드 ID</label>
+									<input type="text" class="form-control input-sm" name="codeId" id="codeId" value="${code.codeId}" placeholder="코드 입력" style="display: table-caption;width:100px;">
 									<span style="color: red">※ 100단위로 입력해주세요.</span>
 								</div>
 								</c:if>
 								<c:if test="${editMode == 'update'}">
 								<div class="form-group">
-									<label for="cdId" style="width: 150px;">코드 ID</label>
+									<label for="codeId" style="width: 150px;">코드 ID</label>
 									<span style="font-weight: bold;">
-										<input type="hidden" name="cdId" id="cdId" value="${code.cdId}"/>
-										${code.cdId}
+										<input type="hidden" name="codeId" id="codeId" value="${code.codeId}"/>
+										${code.codeId}
 									</span>
 								</div>
 								</c:if>
 								<div class="form-group">
-									<label for="cdNm" style="width: 150px;">코드 이름</label>
-									<input type="text" class="form-control input-sm" name="cdNm" id="cdNm" value="${code.cdNm}" placeholder="코드 이름 입력" style="display: table-caption;width:150px;">
+									<label for="codeName" style="width: 150px;">코드 이름</label>
+									<input type="text" class="form-control input-sm" name="codeName" id="codeName" value="${code.codeName}" placeholder="코드 이름 입력" style="display: table-caption;width:150px;">
 								</div>
 								<div class="form-group">
 									<label for="sortOrdr" style="width: 150px;">정렬 순서</label>
@@ -75,32 +75,16 @@
 								</div>
 								<div class="form-group">
 									<label style="width: 150px;">사용 여부</label>
-									<select class="form-control input-sm" id="useYn" name="useYn" style="display: table-caption;width:100px;">
-										<option value="0" <c:if test="${empty(code.useYn) || code.useYn == 0}">selected</c:if>>미사용</option>
-										<option value="1" <c:if test="${code.useYn == 1}">selected</c:if>>사용</option>
+									<select class="form-control input-sm" id="isUse" name="isUse" style="display: table-caption;width:100px;">
+										<option value="N" <c:if test="${empty(code.isUse) || code.isUse == 'N'}">selected</c:if>>미사용</option>
+										<option value="Y" <c:if test="${code.isUse == 'Y'}">selected</c:if>>사용</option>
 									</select>
 								</div>
-								<c:if test="${editMode == 'update'}">
-								<div class="form-group">
-									<label style="width: 150px;">등록일자</label>
-									<span>
-										<fmt:formatDate value="${code.registDt}" pattern="yyyy-MM-dd HH:mm:ss" />
-										<i class="fa fa-fw fa-user"></i>&nbsp;User No : ${code.registerNo}(${code.registerName})
-									</span>
-								</div>
-								<div class="form-group">
-									<label style="width: 150px;">수정일자</label>
-									<span>
-										<fmt:formatDate value="${code.updtDt}" pattern="yyyy-MM-dd HH:mm:ss" />
-										<i class="fa fa-fw fa-user"></i>&nbsp;User No : ${code.updusrNo}(${code.updusrName})
-									</span>
-								</div>
-								</c:if>
 								
 								<div class="box-footer" style="text-align: center;vertical-align: middle;">
 					         		<c:if test="${editMode == 'update'}">
 									<button type="button" class="btn btn-danger btn-sm" onclick="javascript:code.modify('codeFrm');">코드 정보 수정</button>
-									<button type="button" class="btn btn-warning btn-sm" onclick="javascript:code.isDelete(${code.cdId}, 1);">코드 정보 삭제</button>
+									<button type="button" class="btn btn-warning btn-sm" onclick="javascript:code.isDelete(${code.codeId}, 'Y');">코드 정보 삭제</button>
 					         		</c:if>
 					         		<c:if test="${editMode != 'update'}">
 									<button type="button" class="btn btn-success btn-sm" onclick="javascript:code.regist('codeFrm');">코드 등록</button>
@@ -114,8 +98,8 @@
 						<c:if test="${editMode == 'update'}">
 						<div class="box">
 							<div class="box-header" style="margin-top: 10px;margin-left: 25px;">
-								<h3 class="box-title">코드 상세 리스트 - <b>${code.cdNm}</b></h3>
-								<a href="${contextPath }/Code/get/${code.cdId}/0" style="margin-left: 10px"><button type="button" class="btn btn-success btn-sm">상세 코드 신규</button></a>
+								<h3 class="box-title">코드 상세 리스트 - <b>${code.codeName}</b></h3>
+								<a href="${contextPath }/Code/get/${code.codeId}/0" style="margin-left: 10px"><button type="button" class="btn btn-success btn-sm">상세 코드 신규</button></a>
 							</div><!-- /.box-header -->
 							<div class="box-body">
 								<table class="table table-bordered">
@@ -123,22 +107,18 @@
 										<th style="text-align: center;">No</th>
 										<th style="text-align: center;">코드ID</th>
 										<th style="text-align: center;">코드명</th>
-										<th style="text-align: center;">코드영문명</th>
 										<th style="text-align: center;">정렬순서</th>
 										<th style="text-align: center;">사용여부</th>
-										<th style="text-align: center;">등록일시</th>
-										<th style="text-align: center;">등록자</th>
+										<th style="text-align: center;">비고</th>
 									</tr>
 									<c:forEach var="item" items="${listChildCode}" varStatus="status">
 									<tr>
 										<td style="text-align: center;">${status.count}</td>
-										<td style="text-align: center;">${item.cdId}</td>
-										<td style="text-align: center;"><a href="${contextPath }/Code/get/${code.cdId}/${item.cdId}">${item.cdNm}</a></td>
-										<td style="text-align: center;">${item.cdEnNm}</td>
+										<td style="text-align: center;">${item.codeId}</td>
+										<td style="text-align: center;"><a href="${contextPath }/Code/get/${code.codeId}/${item.codeId}">${item.codeName}</a></td>
 										<td style="text-align: center;">${item.sortOrdr}</td>
-										<td style="text-align: center;">${item.useYn == 1 ? '사용' : '미사용'}</td>
-										<td style="text-align: center;"><fmt:formatDate value="${item.registDt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-										<td style="text-align: center;">${item.registerName}</td>
+										<td style="text-align: center;">${item.isUse == 'Y' ? '사용' : '미사용'}</td>
+										<td style="text-align: center;">${item.remark}</td>
 									</tr>
 									</c:forEach>
 								</table>

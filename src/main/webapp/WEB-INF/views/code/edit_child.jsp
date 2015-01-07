@@ -46,35 +46,31 @@
                         	<form name="codeFrm" id="codeFrm" action="${contextPath}/Code/${ editMode == 'update' ? 'updateProcess' : 'addProcess' }" method="post" >
 							<div class="box-body">
 								<div class="form-group">
-									<label for="cdId" style="width: 150px;">상위 코드 ID</label>
+									<label for="codeId" style="width: 150px;">상위 코드 ID</label>
 									<span style="font-weight: bold;">
-										<input type="hidden" name="uprCdId" id="uprCdId" value="${codeUpr.cdId}"/>
-										${codeUpr.cdNm}&nbsp;(${codeUpr.cdId})
+										<input type="hidden" name="uperCode" id="uperCode" value="${codeUpr.codeId}"/>
+										${codeUpr.codeName}&nbsp;(${codeUpr.codeId})
 									</span>
 								</div>
 								<c:if test="${editMode != 'update'}">
 								<div class="form-group">
-									<label for="cdId" style="width: 150px;">코드 ID</label>
-									<input type="text" class="form-control input-sm" name="cdId" id="cdId" value="${code.cdId}" placeholder="코드 입력" style="display: table-caption;width:100px;">
-									<span style="color: red">※ ${codeUpr.uprCdId} ~ ${codeUpr.uprCdId + 99} 사이 값으로 입력하세요.</span>
+									<label for="codeId" style="width: 150px;">코드 ID</label>
+									<input type="text" class="form-control input-sm" name="codeId" id="codeId" value="${code.codeId}" placeholder="코드 입력" style="display: table-caption;width:100px;">
+									<span style="color: red">※ ${codeUpr.uperCode} ~ ${codeUpr.uperCode + 99} 사이 값으로 입력하세요.</span>
 								</div>
 								</c:if>
 								<c:if test="${editMode == 'update'}">
 								<div class="form-group">
-									<label for="cdId" style="width: 150px;">코드 ID</label>
+									<label for="codeId" style="width: 150px;">코드 ID</label>
 									<span style="font-weight: bold;">
-										<input type="hidden" name="cdId" id="cdId" value="${code.cdId}"/>
-										${code.cdId}
+										<input type="hidden" name="codeId" id="codeId" value="${code.codeId}"/>
+										${code.codeId}
 									</span>
 								</div>
 								</c:if>
 								<div class="form-group">
-									<label for="cdNm" style="width: 150px;">코드 이름</label>
-									<input type="text" class="form-control input-sm" name="cdNm" id="cdNm" value="${code.cdNm}" placeholder="코드 이름 입력" style="display: table-caption;width:150px;">
-								</div>
-								<div class="form-group">
-									<label for="cdEnNm" style="width: 150px;">코드 이름(영문)</label>
-									<input type="text" class="form-control input-sm" name="cdEnNm" id="cdEnNm" value="${code.cdEnNm}" placeholder="코드 영문 이름 입력" style="display: table-caption;width:150px;">
+									<label for="codeName" style="width: 150px;">코드 이름</label>
+									<input type="text" class="form-control input-sm" name="codeName" id="codeName" value="${code.codeName}" placeholder="코드 이름 입력" style="display: table-caption;width:150px;">
 								</div>
 								<div class="form-group">
 									<label for="sortOrdr" style="width: 150px;">정렬 순서</label>
@@ -86,37 +82,21 @@
 								</div>
 								<div class="form-group">
 									<label style="width: 150px;">사용 여부</label>
-									<select class="form-control input-sm" id="useYn" name="useYn" style="display: table-caption;width:100px;">
-										<option value="0" <c:if test="${empty(code.useYn) || code.useYn == 0}">selected</c:if>>미사용</option>
-										<option value="1" <c:if test="${code.useYn == 1}">selected</c:if>>사용</option>
+									<select class="form-control input-sm" id="isUse" name="isUse" style="display: table-caption;width:100px;">
+										<option value="N" <c:if test="${empty(code.isUse) || code.isUse == 'N'}">selected</c:if>>미사용</option>
+										<option value="Y" <c:if test="${code.isUse == 'Y'}">selected</c:if>>사용</option>
 									</select>
 								</div>
-								<c:if test="${editMode == 'update'}">
-								<div class="form-group">
-									<label style="width: 150px;">등록일자</label>
-									<span>
-										<fmt:formatDate value="${code.registDt}" pattern="yyyy-MM-dd HH:mm:ss" />
-										<i class="fa fa-fw fa-user"></i>&nbsp;User No : ${code.registerNo}(${code.registerName})
-									</span>
-								</div>
-								<div class="form-group">
-									<label style="width: 150px;">수정일자</label>
-									<span>
-										<fmt:formatDate value="${code.updtDt}" pattern="yyyy-MM-dd HH:mm:ss" />
-										<i class="fa fa-fw fa-user"></i>&nbsp;User No : ${code.updusrNo}(${code.updusrName})
-									</span>
-								</div>
-								</c:if>
 								
 								<div class="box-footer" style="text-align: center;vertical-align: middle;">
 					         		<c:if test="${editMode == 'update'}">
 									<button type="button" class="btn btn-danger btn-sm" onclick="javascript:code.modifyChild('codeFrm');">상세 코드 정보 수정</button>
-									<button type="button" class="btn btn-warning btn-sm" onclick="javascript:code.isDeleteChild(${code.cdId}, 1);">상세 코드 정보 삭제</button>
+									<button type="button" class="btn btn-warning btn-sm" onclick="javascript:code.isDeleteChild(${code.codeId}, 'Y');">상세 코드 정보 삭제</button>
 					         		</c:if>
 					         		<c:if test="${editMode != 'update'}">
 									<button type="button" class="btn btn-success btn-sm" onclick="javascript:code.registChild('codeFrm');">상세 코드 등록</button>
 					         		</c:if>
-								  <button type="button" class="btn btn-default btn-sm" onclick="javascript:window.location.href='${contextPath}/Code/get/${codeUpr.cdId}'">목록</button>
+								  <button type="button" class="btn btn-default btn-sm" onclick="javascript:window.location.href='${contextPath}/Code/get/${codeUpr.codeId}'">목록</button>
 								</div>
 								
 							</div>

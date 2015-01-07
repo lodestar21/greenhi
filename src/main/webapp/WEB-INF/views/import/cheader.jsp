@@ -32,7 +32,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">정보 수정</a>
+                                        <a href="${contextPath}/Mypage/get" class="btn btn-default btn-flat">정보 수정</a>
                                     </div>
                                 <div class="pull-right">
                                     <a href="#" onclick="javascript:user.logout();" class="btn btn-default btn-flat">Log out</a>

@@ -45,8 +45,17 @@ public class UserVO extends PagingVO {
 	private String userTypeName;
 	private String localCodeName;
 	private String userStatName;
+	private String depositBankName;
 
 	private String saveId;
+
+	public String getDepositBankName() {
+		return depositBankName;
+	}
+
+	public void setDepositBankName(String depositBankName) {
+		this.depositBankName = depositBankName;
+	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;

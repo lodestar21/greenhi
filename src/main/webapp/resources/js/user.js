@@ -34,38 +34,47 @@ var user = {
 		$("#searchFrom").submit();
 	},
 	
-	historyListPage : function(getParameter){
-		var url = contextPath + "/User/LoginHistory/list/" + getParameter;
-		$("#searchFrom").attr("action",url);
-		$("#searchFrom").submit();
-	},
-	
 	regist : function(formName) {
 
 		// 필수 항목 체크
-		if( $("#userNm").val() == "" ){
+		if( $("#userId").val() == "" ){
+			alert("아이디를 입력해주세요.");
+			$("#userId").focus();
+			return false;
+		}
+		if( $("#userName").val() == "" ){
 			alert("이름을 입력해주세요.");
-			$("#userNm").focus();
+			$("#userName").focus();
 			return false;
 		}
-		if( $("#emal").val() == "" ){
+		if( $('#userType').val() == 102 && $('#custName').val() == "" ) {
+			alert("고객사명을 입력해주세요.");
+			$("#custName").focus();
+			return false;
+		}
+		if( $('#userType').val() == 103 && $('#localCode').val() == "" ) {
+			alert("지역을 선택해주세요.");
+			$("#localCode").focus();
+			return false;
+		}
+		if( $("#email").val() == "" ){
 			alert("이메일을 입력해주세요.");
-			$("#emal").focus();
+			$("#email").focus();
 			return false;
 		}
-		if( $("#pswd").val() == "" ){
+		if( $("#passWord").val() == "" ){
 			alert("패스워드를 입력해주세요.");
-			$("#pswd").focus();
+			$("#passWord").focus();
 			return false;
 		}
-		if( $("#pswdCfm").val() == "" ){
+		if( $("#passWordCfm").val() == "" ){
 			alert("패스워드(확인)를 입력해주세요.");
-			$("#pswdCfm").focus();
+			$("#passWordCfm").focus();
 			return false;
 		}
-		if( $("#pswd").val() != $("#pswdCfm").val() ){
+		if( $("#passWord").val() != $("#passWordCfm").val() ){
 			alert("패스워드가 다릅니다. 다시 입력해주세요.");
-			$("#pswd").focus();
+			$("#passWord").focus();
 			return false;
 		}
 		
@@ -78,7 +87,8 @@ var user = {
 				var res = data;
 				alert(res.message);
 				if ( res.status == 200 ) {
-					window.location = contextPath + "/User/get/" + res.data;
+					//window.location = contextPath + "/User/get/" + res.data;
+					window.location = contextPath + "/User/list/1";
 				}
 			},
 			error : function(data, status, e) {
@@ -91,20 +101,30 @@ var user = {
 	modify : function(formName) {
 
 		// 필수 항목 체크
-		if( $("#userNm").val() == "" ){
+		if( $("#userName").val() == "" ){
 			alert("이름을 입력해주세요.");
-			$("#userNm").focus();
+			$("#userName").focus();
 			return false;
 		}
-		if( $("#emal").val() == "" ){
+		if( $('#userType').val() == 102 && $('#custName').val() == "" ) {
+			alert("고객사명을 입력해주세요.");
+			$("#custName").focus();
+			return false;
+		}
+		if( $('#userType').val() == 103 && $('#localCode').val() == "" ) {
+			alert("지역을 선택해주세요.");
+			$("#localCode").focus();
+			return false;
+		}
+		if( $("#email").val() == "" ){
 			alert("이메일을 입력해주세요.");
-			$("#emal").focus();
+			$("#email").focus();
 			return false;
 		}
-		if( $("#pswd").val() != "" ){
-			if( $("#pswd").val() != $("#pswdCfm").val() ){
+		if( $("#passWord").val() != "" ){
+			if( $("#passWord").val() != $("#passWordCfm").val() ){
 				alert("패스워드가 다릅니다. 다시 입력해주세요.");
-				$("#pswd").focus();
+				$("#passWord").focus();
 				return false;
 			}
 		}
@@ -118,7 +138,58 @@ var user = {
 				var res = data;
 				alert(res.message);
 				if ( res.status == 200 ) {
-					window.location = contextPath + "/User/get/" + $("#userNo").val();
+					//window.location = contextPath + "/User/get/" + res.data;
+					window.location = contextPath + "/User/list/1";
+				}
+			},
+			error : function(data, status, e) {
+				alert("회원 수정에 실패했습니다.");
+			}
+		});
+		$('#' + formName).submit();
+	},
+
+	mypageModify : function(formName) {
+
+		// 필수 항목 체크
+		if( $("#userName").val() == "" ){
+			alert("이름을 입력해주세요.");
+			$("#userName").focus();
+			return false;
+		}
+		if( $('#userType').val() == 102 && $('#custName').val() == "" ) {
+			alert("고객사명을 입력해주세요.");
+			$("#custName").focus();
+			return false;
+		}
+		if( $('#userType').val() == 103 && $('#localCode').val() == "" ) {
+			alert("지역을 선택해주세요.");
+			$("#localCode").focus();
+			return false;
+		}
+		if( $("#email").val() == "" ){
+			alert("이메일을 입력해주세요.");
+			$("#email").focus();
+			return false;
+		}
+		if( $("#passWord").val() != "" ){
+			if( $("#passWord").val() != $("#passWordCfm").val() ){
+				alert("패스워드가 다릅니다. 다시 입력해주세요.");
+				$("#passWord").focus();
+				return false;
+			}
+		}
+		
+		$('#' + formName).ajaxForm({
+			type : "POST",
+			async : false,
+			cache : false,
+			dataType : "json",
+			success : function(data, status) {
+				var res = data;
+				alert(res.message);
+				if ( res.status == 200 ) {
+					window.location = contextPath + "/Mypage/get";
 				}
 			},
 			error : function(data, status, e) {

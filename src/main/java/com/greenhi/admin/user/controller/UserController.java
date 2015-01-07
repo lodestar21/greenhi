@@ -1,6 +1,7 @@
 package com.greenhi.admin.user.controller;
 
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.greenhi.admin.code.service.CodeService;
+import com.greenhi.admin.code.vo.CodeVO;
 import com.greenhi.admin.user.service.UserService;
 import com.greenhi.admin.user.vo.UserVO;
 import com.greenhi.common.Constants;
@@ -41,6 +46,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CodeService codeService;
+    
 	/**
 	 * 로그인 화면 호출
 	 * 
@@ -146,5 +154,204 @@ public class UserController {
 
 		return result;
 	}
+
+	/**
+	 * 사용자 리스트 조회
+	 * 
+	 * @param  search 조회 조건, pageNum 페이지 번호, isFirst 처음 유무
+	 * @return 리스트 화면
+	 * @throws Exception
+	 * @history 
+	 */
+	@RequestMapping( "/list/{pageNum}" )
+	public String list( HttpSession session,
+			HttpServletRequest req,
+			HttpServletResponse res,
+			@ModelAttribute( "search" ) UserVO search,
+			@PathVariable( "pageNum" ) int pageNum,
+			@RequestParam( value = "isFirst", defaultValue = "true", required = false ) boolean isFirst,
+			Model model ) throws Exception {
+		
+		int isEqualSearch = 0; // 완전일치 검색
+		String orderBy = "DESC"; // 오래된순 정렬 검색
+		
+		// 페이지
+		if ( pageNum != 0 ) {
+			search.setPageNum( pageNum );
+		}
+		
+		// 검색옵션 : 검색어
+		if ( search.getSearchWord() == null ) {
+			search.setSearchWord( "" );
+		}
+		
+		// 검색옵션 : 완전일치
+		if ( !StringUtil.isEmpty( req.getParameter( "isEqualSearch" ) ) && !req.getParameter( "isEqualSearch" ).equals( "0" ) ) {
+			isEqualSearch = 1;
+			search.setEqualSearch( true );
+		}
+		
+		// 검색옵션 : 오래된순 정렬
+		if ( !StringUtil.isEmpty( req.getParameter( "orderBy" ) ) && !req.getParameter( "orderBy" ).equals( "desc" ) ) {
+			orderBy = "ASC";
+			search.setOrderBy( orderBy );
+		}
+
+		int totalCount = 0;
+		
+		List<UserVO> list = null;
+
+		//if ( !isFirst ) {
+			list = userService.list( search );
+			totalCount = userService.listCount( search );
+		//}
+			
+		// 사용자_유형코드(100)
+		CodeVO cypcdVo = new CodeVO();
+		cypcdVo.setUperCode( 100 );
+		model.addAttribute( "userTypeList", codeService.listChildCode( cypcdVo ) );
+
+		// 사용자_상태코드(200)
+		CodeVO sttuscdVo = new CodeVO();
+		sttuscdVo.setUperCode( 200 );
+		model.addAttribute( "userStatList", codeService.listChildCode( sttuscdVo ) );
+
+		// 지역코드(300)
+		CodeVO localCodeVo = new CodeVO();
+		localCodeVo.setUperCode( 300 );
+		model.addAttribute( "localCodeList", codeService.listChildCode( localCodeVo ) );
+		
+		model.addAttribute( "startIdx", search.getStartIdx() );
+		model.addAttribute( "recPerPage", search.getRecordPerPage() );
+		model.addAttribute( "isEqualSearch", isEqualSearch );
+		model.addAttribute( "list", list );
+		model.addAttribute( "pageNum", pageNum );
+		model.addAttribute( "totalCount", totalCount );
+		model.addAttribute( "search", search );
+		
+		return "user/list";
+	}
+
+	/**
+	 * 사용자 정보 상세 페이지
+	 * 
+	 * @param  userNo 사용자번호
+	 * @return 상세 페이지 이동
+	 * @throws Exception
+	 * @history 
+	 */
+	@RequestMapping( value = "/get/{userNo}" )
+	public String info( @PathVariable( "userNo" ) long userNo,
+			HttpSession session,
+			Model model ) throws Exception {
+
+		UserVO user = new UserVO();
+		
+		// 수정 모드
+		if ( userNo > 0 ) {
+			user.setUserNo( userNo );
+			user = userService.get( user );
+			model.addAttribute( "editMode", "update" );
+		}
+		
+		// 사용자_유형코드(100)
+		CodeVO cypcdVo = new CodeVO();
+		cypcdVo.setUperCode( 100 );
+		model.addAttribute( "userTypeList", codeService.listChildCode( cypcdVo ) );
+
+		// 사용자_상태코드(200)
+		CodeVO sttuscdVo = new CodeVO();
+		sttuscdVo.setUperCode( 200 );
+		model.addAttribute( "userStatList", codeService.listChildCode( sttuscdVo ) );
+
+		// 지역코드(300)
+		CodeVO localCodeVo = new CodeVO();
+		localCodeVo.setUperCode( 300 );
+		model.addAttribute( "localCodeList", codeService.listChildCode( localCodeVo ) );
+
+		// 은행코드(400)
+		CodeVO depositBankVo = new CodeVO();
+		depositBankVo.setUperCode( 400 );
+		model.addAttribute( "depositBankList", codeService.listChildCode( depositBankVo ) );
+		
+		// 사용자 정보
+		model.addAttribute( "user", user );
+		
+		return "user/edit";
+	}
+
+	/**
+	 * 신규 회원 등록
+	 * 
+	 * @param  user 회원 정보
+	 * @return ResponseVO 결과 정보
+	 * @throws Exception
+	 * @history 
+	 */
+	@ResponseBody
+	@RequestMapping( value = "/addProcess", method = RequestMethod.POST )
+	public ResponseVO addProcess( 
+			@ModelAttribute( "UserVO" ) UserVO user,
+			Model model,
+			HttpServletResponse res,
+			HttpSession session ) throws Exception {
+
+		ResponseVO result = new ResponseVO();
+
+		UserVO adminUser = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+		user.setCreateUser( adminUser.getUserNo() );
+		
+		long resultUserNo = userService.insertUser( user );
+		
+		if ( resultUserNo == -1 ) {
+			result.setStatus( 400 );
+			result.setMessage( "아이디 중복입니다." );
+			return result;
+		} else if ( resultUserNo < 1 ) {
+			result.setStatus( 400 );
+			result.setMessage( "회원 등록 중 오류가 발생 했습니다." );
+			return result;
+		} else {
+			result.setStatus( 200 );
+			result.setData( resultUserNo );
+			result.setMessage( "회원 등록이 완료 되었습니다." );
+			return result;
+		}
+		
+	}
 	
+	/**
+	 * 회원 정보 수정
+	 * 
+	 * @param  user 회원 정보
+	 * @return ResponseVO 결과 정보
+	 * @throws Exception
+	 * @history 
+	 */
+	@ResponseBody
+	@RequestMapping( value = "/updateProcess", method = RequestMethod.POST )
+	public ResponseVO updateProcess( 
+			@ModelAttribute( "UserVO" ) UserVO user,
+			Model model,
+			HttpServletResponse res,
+			HttpSession session ) throws Exception {
+
+		ResponseVO result = new ResponseVO();
+
+		UserVO adminUser = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+		user.setModifyUser( adminUser.getUserNo() );
+
+		int resultChek = userService.updateUser( user );
+		
+		if ( resultChek < 1 ) {
+			result.setStatus( 400 );
+			result.setMessage( "회원 수정 중 오류가 발생 했습니다." );
+			return result;
+		} else {
+			result.setStatus( 200 );
+			result.setMessage( "회원 수정 되었습니다." );
+			return result;
+		}
+		
+	}
 }

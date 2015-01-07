@@ -38,22 +38,222 @@
                 WHERE UPER_CODE = 200
                   AND CODE_ID = A.USER_STAT
                ) AS userStatName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.USER_STAT
+               ) AS depositBankName
         FROM T_USER A
+        WHERE A.IS_DELETE = 'N'
     ]]>
-    	<trim prefix="WHERE" prefixOverrides="AND |OR ">
-	        <if test="userId != null and userId != ''">
-	            AND A.USER_ID = #{userId}
-	        </if>
-	        <if test="userStat != null and userStat != ''">
-	            AND A.USER_STAT = #{userStat}
-	        </if>
-	        <if test="isDelete != null and isDelete != ''">
-	            AND A.IS_DELETE = #{isDelete}
-	        </if>
-	        <if test="userNo > 0 ">
-	            AND A.USER_NO = #{userNo}
-	        </if>
-        </trim>
+        <if test="userId != null and userId != ''">
+            AND A.USER_ID = #{userId}
+        </if>
+        <if test="userStat != null and userStat != ''">
+            AND A.USER_STAT = #{userStat}
+        </if>
+        <if test="isDelete != null and isDelete != ''">
+            AND A.IS_DELETE = #{isDelete}
+        </if>
+        <if test="userNo > 0 ">
+            AND A.USER_NO = #{userNo}
+        </if>
     </select>
+    
+    <select id="list" parameterType="com.greenhi.admin.user.vo.UserVO" resultType="com.greenhi.admin.user.vo.UserVO">
+    <![CDATA[
+        SELECT
+              A.USER_NO          AS userNo
+            , A.CREATE_TIME      AS createTime
+            , A.CREATE_USER      AS createUser
+            , A.MODIFY_TIME      AS modifyTime
+            , A.MODIFY_USER      AS modifyUser
+            , A.IS_DELETE        AS isDelete
+            , A.USER_ID          AS userId
+            , A.USER_NAME        AS userName
+            , A.USER_TYPE        AS userType
+            , A.CUST_NAME        AS custName
+            , A.LOCAL_CODE       AS localCode
+            , A.EMAIL            AS email
+            , A.PHONE_NUMBER     AS phoneNumber
+            , A.USER_STAT        AS userStat
+            , A.PASS_WORD        AS passWord
+            , A.DEPOSIT_BANK     AS depositBank
+            , A.ACCOUNT_NUM      AS accountNum
+            , A.REMARK           AS remark
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 100
+                  AND CODE_ID = A.USER_TYPE
+               ) AS userTypeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 300
+                  AND CODE_ID = A.LOCAL_CODE
+               ) AS localCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 200
+                  AND CODE_ID = A.USER_STAT
+               ) AS userStatName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.USER_STAT
+               ) AS depositBankName
+        FROM T_USER A
+        WHERE A.IS_DELETE = 'N'
+    ]]>
+        <if test="userType > 0">
+            AND A.USER_TYPE = #{userType}
+        </if>
+        <if test="userStat > 0">
+            AND A.USER_STAT = #{userStat}
+        </if>
+        <if test="localCode > 0">
+            AND A.LOCAL_CODE = #{localCode}
+        </if>
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.USER_NAME = #{searchWord}
+            </if>
+            <if test="searchField == 2">
+            	AND A.USER_ID = #{searchWord}
+            </if>
+            <if test="searchField == 3">
+            	AND A.EMAIL = #{searchWord}
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.USER_NAME LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 2">
+            	AND A.USER_ID LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 3">
+            	AND A.EMAIL LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+        </if>
+        <if test="orderBy == 'ASC'">
+        	ORDER BY A.USER_NO ASC
+        </if>
+        <if test="orderBy != 'ASC'">
+        	ORDER BY A.USER_NO DESC
+        </if>
+        <if test="isExcel == false">
+        	LIMIT #{startIdx}, #{recordPerPage}
+        </if>
+    </select>
+    
+    <select id="listCount" parameterType="com.greenhi.admin.user.vo.UserVO" resultType="int">
+    <![CDATA[
+        SELECT
+             COUNT(*) AS CNT
+        FROM T_USER A
+        WHERE A.IS_DELETE = 'N'
+    ]]>
+        <if test="userType > 0">
+            AND A.USER_TYPE = #{userType}
+        </if>
+        <if test="userStat > 0">
+            AND A.USER_STAT = #{userStat}
+        </if>
+        <if test="localCode > 0">
+            AND A.LOCAL_CODE = #{localCode}
+        </if>
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.USER_NAME = #{searchWord}
+            </if>
+            <if test="searchField == 2">
+            	AND A.USER_ID = #{searchWord}
+            </if>
+            <if test="searchField == 3">
+            	AND A.EMAIL = #{searchWord}
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.USER_NAME LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 2">
+            	AND A.USER_ID LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 3">
+            	AND A.EMAIL LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+        </if>
+    </select>
+    
+    <select id="selectDuplicatedUserId" parameterType="com.greenhi.admin.user.vo.UserVO" resultType="string">
+        SELECT USER_ID
+          FROM T_USER
+         WHERE USER_ID = #{userId}         
+         LIMIT 0, 1
+    </select>
+    
+    <insert id="insertUser" parameterType="com.greenhi.admin.user.vo.UserVO">
+        INSERT INTO T_USER (
+              USER_ID
+            , USER_NAME
+            , USER_TYPE
+            , CUST_NAME
+            , LOCAL_CODE
+            , EMAIL
+            , PHONE_NUMBER
+            , USER_STAT
+            , PASS_WORD
+            , DEPOSIT_BANK
+            , ACCOUNT_NUM
+            , REMARK
+            , CREATE_TIME
+            , CREATE_USER
+            , MODIFY_TIME
+            , MODIFY_USER
+            , IS_DELETE
+        ) VALUES (
+              #{userId}
+            , #{userName}
+            , #{userType}
+            , #{custName}
+            , #{localCode}
+            , #{email}
+            , #{phoneNumber}
+            , #{userStat}
+            , #{passWord}
+            , #{depositBank}
+            , #{accountNum}
+            , #{remark}
+            , now()
+            , #{createUser}
+            , now()
+            , #{createUser}
+            , 'N'
+        )
+		<selectKey resultType="long" keyProperty="userNo" order="AFTER">
+			SELECT LAST_INSERT_ID()  
+		</selectKey>
+    </insert>
+    
+    <update id="updateUser" parameterType="com.greenhi.admin.user.vo.UserVO">
+        UPDATE T_USER SET
+              USER_NAME = #{userName}
+            , USER_TYPE = #{userType}
+            , CUST_NAME = #{custName}
+            , LOCAL_CODE = #{localCode}
+            , EMAIL = #{email}
+            , PHONE_NUMBER = #{phoneNumber}
+            , USER_STAT = #{userStat}
+            , DEPOSIT_BANK = #{depositBank}
+            , ACCOUNT_NUM = #{accountNum}
+            , REMARK = #{remark}
+            , MODIFY_USER = #{modifyUser}
+            , MODIFY_TIME = now()
+	        <if test="passWord != null and passWord != ''">
+            , PASS_WORD = #{passWord}
+            </if>
+        WHERE USER_NO = #{userNo}
+    </update>
     
 </mapper>
