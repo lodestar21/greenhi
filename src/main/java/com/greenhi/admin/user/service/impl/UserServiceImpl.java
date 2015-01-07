@@ -159,12 +159,12 @@ public class UserServiceImpl implements UserService {
 	    	}
 	    	
 	    	if ( user.getUserType() == 101 ) {
-	    		user.setCustName( "" );
+	    		user.setCustCode( 0 );
 	    		user.setLocalCode( 0 );
 	    	} else if ( user.getUserType() == 102 ) {
 	    		user.setLocalCode( 0 );
 	    	} else if ( user.getUserType() == 103 ) {
-	    		user.setCustName( "" );
+	    		user.setCustCode( 0 );
 	    	}
 			
 			result = userDao.updateUser( user );

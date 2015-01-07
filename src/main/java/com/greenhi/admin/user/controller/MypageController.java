@@ -77,6 +77,11 @@ public class MypageController {
 		CodeVO depositBankVo = new CodeVO();
 		depositBankVo.setUperCode( 400 );
 		model.addAttribute( "depositBankList", codeService.listChildCode( depositBankVo ) );
+
+		// 지역코드(600)
+		CodeVO custCodeVo = new CodeVO();
+		custCodeVo.setUperCode( 600 );
+		model.addAttribute( "custCodeList", codeService.listChildCode( custCodeVo ) );
 		
 		// 사용자 정보
 		model.addAttribute( "user", user );

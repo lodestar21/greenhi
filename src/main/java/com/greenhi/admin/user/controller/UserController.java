@@ -220,6 +220,11 @@ public class UserController {
 		CodeVO localCodeVo = new CodeVO();
 		localCodeVo.setUperCode( 300 );
 		model.addAttribute( "localCodeList", codeService.listChildCode( localCodeVo ) );
+
+		// 지역코드(600)
+		CodeVO custCodeVo = new CodeVO();
+		custCodeVo.setUperCode( 600 );
+		model.addAttribute( "custCodeList", codeService.listChildCode( custCodeVo ) );
 		
 		model.addAttribute( "startIdx", search.getStartIdx() );
 		model.addAttribute( "recPerPage", search.getRecordPerPage() );
@@ -273,6 +278,11 @@ public class UserController {
 		CodeVO depositBankVo = new CodeVO();
 		depositBankVo.setUperCode( 400 );
 		model.addAttribute( "depositBankList", codeService.listChildCode( depositBankVo ) );
+
+		// 지역코드(600)
+		CodeVO custCodeVo = new CodeVO();
+		custCodeVo.setUperCode( 600 );
+		model.addAttribute( "custCodeList", codeService.listChildCode( custCodeVo ) );
 		
 		// 사용자 정보
 		model.addAttribute( "user", user );

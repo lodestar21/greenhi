@@ -43,7 +43,7 @@
                         	<form name="userFrm" id="userFrm" action="${contextPath}/Mypage/update" method="post" >
 							<input type="hidden" name="userNo" id="userNo" value="${user.userNo}"/>
 							<input type="hidden" name="userType" id="userType" value="${user.userType}"/>
-							<input type="hidden" name="custName" id="custName" value="${user.custName}"/>
+							<input type="hidden" name="custCode" id="custCode" value="${user.custCode}"/>
 							<input type="hidden" name="localCode" id="localCode" value="${user.localCode}"/>
 							<input type="hidden" name="userStat" id="userStat" value="${user.userStat}"/>
 							<input type="hidden" name="remark" id="remark" value="${user.remark}"/>
@@ -61,7 +61,7 @@
 											Administrator
 										</c:when>
 										<c:when test="${user.userType == 102}">
-											은행 관리자 / ${user.custName}
+											은행 관리자 / ${user.custCodeName}
 										</c:when>
 										<c:when test="${user.userType == 103}">
 											일반사용자 / ${user.localCodeName}

@@ -47,12 +47,12 @@ var user = {
 			$("#userName").focus();
 			return false;
 		}
-		if( $('#userType').val() == 102 && $('#custName').val() == "" ) {
-			alert("고객사명을 입력해주세요.");
-			$("#custName").focus();
+		if( $('#userType').val() == 102 && $('#custCode').val() == 0 ) {
+			alert("고객사명을 선택해주세요.");
+			$("#custCode").focus();
 			return false;
 		}
-		if( $('#userType').val() == 103 && $('#localCode').val() == "" ) {
+		if( $('#userType').val() == 103 && $('#localCode').val() == 0 ) {
 			alert("지역을 선택해주세요.");
 			$("#localCode").focus();
 			return false;
@@ -106,12 +106,12 @@ var user = {
 			$("#userName").focus();
 			return false;
 		}
-		if( $('#userType').val() == 102 && $('#custName').val() == "" ) {
-			alert("고객사명을 입력해주세요.");
-			$("#custName").focus();
+		if( $('#userType').val() == 102 && $('#custCode').val() == 0 ) {
+			alert("고객사명을 선택해주세요.");
+			$("#custCode").focus();
 			return false;
 		}
-		if( $('#userType').val() == 103 && $('#localCode').val() == "" ) {
+		if( $('#userType').val() == 103 && $('#localCode').val() == 0 ) {
 			alert("지역을 선택해주세요.");
 			$("#localCode").focus();
 			return false;
@@ -157,12 +157,12 @@ var user = {
 			$("#userName").focus();
 			return false;
 		}
-		if( $('#userType').val() == 102 && $('#custName').val() == "" ) {
-			alert("고객사명을 입력해주세요.");
-			$("#custName").focus();
+		if( $('#userType').val() == 102 && $('#custCode').val() == 0 ) {
+			alert("고객사명을 선택해주세요.");
+			$("#custCode").focus();
 			return false;
 		}
-		if( $('#userType').val() == 103 && $('#localCode').val() == "" ) {
+		if( $('#userType').val() == 103 && $('#localCode').val() == 0 ) {
 			alert("지역을 선택해주세요.");
 			$("#localCode").focus();
 			return false;

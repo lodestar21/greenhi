@@ -15,25 +15,25 @@
 		$(document).ready(function(){
 			
 			if( $('#userType').val() == 102 ) {
-				$('#custName').show();
+				$('#custCode').show();
 				$('#localCode').hide();
 			} else if( $('#userType').val() == 103 ) {
-				$('#custName').hide();
+				$('#custCode').hide();
 				$('#localCode').show();
 			} else {
-				$('#custName').hide();
+				$('#custCode').hide();
 				$('#localCode').hide();
 			}
 			
 			$('#userType').change(function() {
 				if( $('#userType').val() == 102 ) {
-					$('#custName').show();
+					$('#custCode').show();
 					$('#localCode').hide();
 				} else if( $('#userType').val() == 103 ) {
-					$('#custName').hide();
+					$('#custCode').hide();
 					$('#localCode').show();
 				} else {
-					$('#custName').hide();
+					$('#custCode').hide();
 					$('#localCode').hide();
 				}
 				
@@ -90,8 +90,14 @@
 										<option value="${item.codeId}" <c:if test="${item.codeId == user.userType}">selected</c:if>>${item.codeName}</option>
 										</c:forEach>
 									</select>
-									<input type="text" class="form-control input-sm" name="custName" id="custName" value="${user.custName}" placeholder="고객사명 입력" style="display: table-caption;width:150px;">
+									<select class="form-control input-sm" id="custCode" name="custCode" style="display: table-caption;width:150px;">
+										<option value="0" <c:if test="${user.custCode == 0}">selected</c:if>>고객사 선택</option>
+										<c:forEach var="item" items="${custCodeList}" varStatus="status">
+										<option value="${item.codeId}" <c:if test="${item.codeId == user.custCode}">selected</c:if>>${item.codeName}</option>
+										</c:forEach>
+									</select>
 									<select class="form-control input-sm" id="localCode" name="localCode" style="display: table-caption;width:150px;">
+										<option value="0" <c:if test="${user.localCode == 0}">selected</c:if>>지역 선택</option>
 										<c:forEach var="item" items="${localCodeList}" varStatus="status">
 										<option value="${item.codeId}" <c:if test="${item.codeId == user.localCode}">selected</c:if>>${item.codeName}</option>
 										</c:forEach>

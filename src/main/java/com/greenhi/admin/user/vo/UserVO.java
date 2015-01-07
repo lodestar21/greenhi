@@ -20,7 +20,7 @@ public class UserVO extends PagingVO {
 	private String userId;
 	private String userName;
 	private int userType;
-	private String custName;
+	private int custCode;
 	private int localCode;
 	private String email;
 	private String phoneNumber;
@@ -46,8 +46,17 @@ public class UserVO extends PagingVO {
 	private String localCodeName;
 	private String userStatName;
 	private String depositBankName;
+	private String custCodeName;
 
 	private String saveId;
+	
+	public String getCustCodeName() {
+		return custCodeName;
+	}
+
+	public void setCustCodeName(String custCodeName) {
+		this.custCodeName = custCodeName;
+	}
 
 	public String getDepositBankName() {
 		return depositBankName;
@@ -133,12 +142,12 @@ public class UserVO extends PagingVO {
 		this.userType = userType;
 	}
 
-	public String getCustName() {
-		return custName;
+	public int getCustCode() {
+		return custCode;
 	}
 
-	public void setCustName(String custName) {
-		this.custName = custName;
+	public void setCustCode(int custCode) {
+		this.custCode = custCode;
 	}
 
 	public int getLocalCode() {
@@ -295,8 +304,8 @@ public class UserVO extends PagingVO {
         sb.append(this.userName);
         sb.append(", USER_TYPE:");
         sb.append(this.userType);
-        sb.append(", CUST_NAME:");
-        sb.append(this.custName);
+        sb.append(", CUST_CODE:");
+        sb.append(this.custCode);
         sb.append(", LOCAL_CODE:");
         sb.append(this.localCode);
         sb.append(", EMAIL:");
