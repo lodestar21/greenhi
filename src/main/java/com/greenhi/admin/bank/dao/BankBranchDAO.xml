@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenhi.admin.bank.dao.BankBranchDAO">
+
+    <select id="list" parameterType="com.greenhi.admin.bank.vo.BankBranchVO" resultType="com.greenhi.admin.bank.vo.BankBranchVO">
+    <![CDATA[
+        SELECT
+              A.BRANCH_NO              AS branchNo
+            , A.CREATE_TIME            AS createTime
+            , A.CREATE_USER            AS createUser
+            , A.MODIFY_TIME            AS modifyTime
+            , A.MODIFY_USER            AS modifyUser
+            , A.IS_USE                 AS isUse
+            , A.CUST_CODE              AS custCode
+            , A.BANK_CODE              AS bankCode
+            , A.BRANCH_STATE_CODE      AS branchStateCode
+            , A.LOCAL_CODE             AS localCode
+            , A.SITE_NAME              AS siteName
+            , A.CLEAN_USER_NO          AS cleanUserNo
+            , A.BRANCH_ADDRESS         AS branchAddress
+            , A.SORT_ORDR              AS sortOrdr
+            , A.CHARGE_MONEY           AS chargeMoney
+            , A.PAY_MONEY              AS payMoney
+            , A.REMARK                 AS remark
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 600
+                  AND CODE_ID = A.CUST_CODE
+               ) AS custCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.BANK_CODE
+               ) AS bankCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 500
+                  AND CODE_ID = A.BRANCH_STATE_CODE
+               ) AS branchStateCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 300
+                  AND CODE_ID = A.LOCAL_CODE
+               ) AS localCodeName
+            , (SELECT USER_NAME
+                 FROM T_USER
+                WHERE USER_NO = A.CLEAN_USER_NO
+               ) AS cleanUserName
+        FROM T_BANK_BRANCH A
+       WHERE A.IS_DELETE = 'N'
+    ]]>
+        <if test="custCode > 0">
+            AND A.CUST_CODE = #{custCode}
+        </if>
+        <if test="bankCode > 0">
+            AND A.BANK_CODE = #{bankCode}
+        </if>
+        <if test="branchStateCode > 0">
+            AND A.BRANCH_STATE_CODE = #{branchStateCode}
+        </if>
+        <if test="localCode > 0">
+            AND A.LOCAL_CODE = #{localCode}
+        </if>
+        
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.BRANCH_ADDRESS = #{searchWord}
+            </if>
+            <if test="searchField == 2">
+            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = #{searchWord})
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.BRANCH_ADDRESS LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 2">
+            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            </if>
+        </if>
+        <if test="orderBy == 'ASC'">
+        	ORDER BY A.USER_NO ASC
+        </if>
+        <if test="orderBy != 'ASC'">
+        	ORDER BY A.USER_NO DESC
+        </if>
+        <if test="isExcel == false">
+        	LIMIT #{startIdx}, #{recordPerPage}
+        </if>
+    </select>
+    
+    <select id="listCount" parameterType="com.greenhi.admin.bank.vo.BankBranchVO" resultType="int">
+    <![CDATA[
+        SELECT
+             COUNT(*) AS CNT
+        FROM T_BANK_BRANCH A
+       WHERE A.IS_DELETE = 'N'
+    ]]>
+        <if test="custCode > 0">
+            AND A.CUST_CODE = #{custCode}
+        </if>
+        <if test="bankCode > 0">
+            AND A.BANK_CODE = #{bankCode}
+        </if>
+        <if test="branchStateCode > 0">
+            AND A.BRANCH_STATE_CODE = #{branchStateCode}
+        </if>
+        <if test="localCode > 0">
+            AND A.LOCAL_CODE = #{localCode}
+        </if>
+        
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.BRANCH_ADDRESS = #{searchWord}
+            </if>
+            <if test="searchField == 2">
+            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = #{searchWord})
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.BRANCH_ADDRESS LIKE CONCAT('%', #{searchWord}, '%')
+            </if>
+            <if test="searchField == 2">
+            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            </if>
+        </if>
+    </select>
+    
+    <select id="get" parameterType="com.greenhi.admin.bank.vo.BankBranchVO" resultType="com.greenhi.admin.bank.vo.BankBranchVO">
+    <![CDATA[
+        SELECT
+              A.BRANCH_NO              AS branchNo
+            , A.CREATE_TIME            AS createTime
+            , A.CREATE_USER            AS createUser
+            , A.MODIFY_TIME            AS modifyTime
+            , A.MODIFY_USER            AS modifyUser
+            , A.IS_USE                 AS isUse
+            , A.CUST_CODE              AS custCode
+            , A.BANK_CODE              AS bankCode
+            , A.BRANCH_STATE_CODE      AS branchStateCode
+            , A.LOCAL_CODE             AS localCode
+            , A.SITE_NAME              AS siteName
+            , A.CLEAN_USER_NO          AS cleanUserNo
+            , A.BRANCH_ADDRESS         AS branchAddress
+            , A.SORT_ORDR              AS sortOrdr
+            , A.CHARGE_MONEY           AS chargeMoney
+            , A.PAY_MONEY              AS payMoney
+            , A.REMARK                 AS remark
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 600
+                  AND CODE_ID = A.CUST_CODE
+               ) AS custCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.BANK_CODE
+               ) AS bankCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 500
+                  AND CODE_ID = A.BRANCH_STATE_CODE
+               ) AS branchStateCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 300
+                  AND CODE_ID = A.LOCAL_CODE
+               ) AS localCodeName
+            , (SELECT USER_NAME
+                 FROM T_USER
+                WHERE USER_NO = A.CLEAN_USER_NO
+               ) AS cleanUserName
+        FROM T_BANK_BRANCH A
+       WHERE A.BRANCH_NO = #{branchNo}
+    ]]>
+    </select>
+    
+    <insert id="insertBankBranch" parameterType="com.greenhi.admin.bank.vo.BankBranchVO">
+        INSERT INTO T_BANK_BRANCH (
+              CREATE_TIME
+            , CREATE_USER
+            , MODIFY_TIME
+            , MODIFY_USER
+            , IS_DELETE
+            , IS_USE
+            , CUST_CODE
+            , BANK_CODE
+            , BRANCH_STATE_CODE
+            , LOCAL_CODE
+            , SITE_NAME
+            , CLEAN_USER_NO
+            , BRANCH_ADDRESS
+            , SORT_ORDR
+            , CHARGE_MONEY
+            , PAY_MONEY
+            , REMARK
+        ) VALUES (
+             now()
+            ,#{createUser}
+            ,now()
+            ,0
+            ,'N'
+            ,#{isUse}
+            ,#{custCode}
+            ,#{bankCode}
+            ,#{branchStateCode}
+            ,#{localCode}
+            ,#{siteName}
+            ,#{cleanUserNo}
+            ,#{branchAddress}
+            ,#{sortOrdr}
+            ,#{chargeMoney}
+            ,#{payMoney}
+            ,#{remark}
+        )
+		<selectKey resultType="long" keyProperty="branchNo" order="AFTER">
+			SELECT LAST_INSERT_ID()  
+		</selectKey>
+    </insert>
+    
+    <update id="updateBankBranch" parameterType="com.greenhi.admin.bank.vo.BankBranchVO">
+        UPDATE T_BANK_BRANCH SET
+              MODIFY_TIME = now()
+            , MODIFY_USER = #{modifyUser}
+            , IS_USE = #{isUse}
+            , CUST_CODE = #{custCode}
+            , BANK_CODE = #{bankCode}
+            , BRANCH_STATE_CODE = #{branchStateCode}
+            , LOCAL_CODE = #{localCode}
+            , SITE_NAME = #{siteName}
+            , CLEAN_USER_NO = #{cleanUserNo}
+            , BRANCH_ADDRESS = #{branchAddress}
+            , SORT_ORDR = #{sortOrdr}
+            , CHARGE_MONEY = #{chargeMoney}
+            , PAY_MONEY = #{payMoney}
+            , REMARK = #{remark}
+        WHERE BRANCH_NO = #{branchNo}
+    </update>
+    
+    <update id="deleteBankBranch" parameterType="com.greenhi.admin.bank.vo.BankBranchVO">
+        UPDATE T_BANK_BRANCH SET
+              IS_DELETE = #{isDelete}
+            , MODIFY_USER = #{modifyUser}
+            , MODIFY_TIME = now()
+        WHERE BRANCH_NO = #{branchNo}
+    </update>
+    
+</mapper>

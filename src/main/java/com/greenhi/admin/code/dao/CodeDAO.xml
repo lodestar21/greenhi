@@ -156,7 +156,6 @@
               MODIFY_TIME = now()
             , MODIFY_USER = #{modifyUser}
             , IS_USE = #{isUse}
-            , SORT_ORDR = #{sortOrdr}
             , UPER_CODE = #{uperCode}
             , CODE_NAME = #{codeName}
             , SORT_ORDR = #{sortOrdr}
