@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenhi.admin.pay.dao.PayDAO">
+
+    <select id="list" parameterType="com.greenhi.admin.pay.vo.PayVO" resultType="com.greenhi.admin.pay.vo.PayVO">
+    <![CDATA[
+        SELECT
+              A.PAY_NO                 AS payNo
+            , A.CREATE_TIME            AS createTime
+            , A.CREATE_USER            AS createUser
+            , A.MODIFY_TIME            AS modifyTime
+            , A.MODIFY_USER            AS modifyUser
+            , A.IS_USE                 AS isUse
+            , A.PAY_DATE               AS payDate
+            , A.WITHDRAW_BANK          AS withdrawBank
+            , A.WITHDRAW_NUM           AS withdrawNum
+            , A.DEPOSIT_BANK           AS depositBank
+            , A.DEPOSIT_NUM            AS depositNum
+            , A.RECEIVE_NO             AS reveiveNo
+            , A.RECEIVE_MONEY          AS receiveMoney
+            , A.REMARK                 AS remark
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.WITHDRAW_BANK
+               ) AS withdrawBankName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.DEPOSIT_BANK
+               ) AS depositBankName
+            , (SELECT USER_NAME
+                 FROM T_USER
+                WHERE USER_NO = A.RECEIVE_NO
+               ) AS reveiveName
+        FROM T_PAY A
+       WHERE A.IS_DELETE = 'N'
+    ]]>
+        <if test="payDate != null and payDate != ''">
+            AND A.PAY_DATE = #{payDate}
+        </if>
+    
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = #{searchWord})
+            </if>
+            <if test="searchField == 2">
+            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME = #{searchWord})
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            </if>
+            <if test="searchField == 2">
+            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            </if>
+        </if>
+        <if test="orderBy == 'ASC'">
+        	ORDER BY A.PAY_NO ASC
+        </if>
+        <if test="orderBy != 'ASC'">
+        	ORDER BY A.PAY_NO DESC
+        </if>
+        <if test="isExcel == false">
+        	LIMIT #{startIdx}, #{recordPerPage}
+        </if>
+    </select>
+    
+    <select id="listCount" parameterType="com.greenhi.admin.pay.vo.PayVO" resultType="int">
+    <![CDATA[
+        SELECT
+             COUNT(*) AS CNT
+        FROM T_PAY A
+       WHERE A.IS_DELETE = 'N'
+    ]]>
+        <if test="payDate != null and payDate != ''">
+            AND A.PAY_DATE = #{payDate}
+        </if>
+    
+        <if test="isEqualSearch == true ">
+            <if test="searchField == 1">
+            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = #{searchWord})
+            </if>
+            <if test="searchField == 2">
+            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME = #{searchWord})
+            </if>
+        </if>
+        <if test="isEqualSearch == false ">
+            <if test="searchField == 1">
+            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            </if>
+            <if test="searchField == 2">
+            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            </if>
+        </if>
+    </select>
+    
+    <select id="get" parameterType="com.greenhi.admin.pay.vo.PayVO" resultType="com.greenhi.admin.pay.vo.PayVO">
+    <![CDATA[
+        SELECT
+              A.PAY_NO                 AS payNo
+            , A.CREATE_TIME            AS createTime
+            , A.CREATE_USER            AS createUser
+            , A.MODIFY_TIME            AS modifyTime
+            , A.MODIFY_USER            AS modifyUser
+            , A.IS_USE                 AS isUse
+            , A.PAY_DATE               AS payDate
+            , A.WITHDRAW_BANK          AS withdrawBank
+            , A.WITHDRAW_NUM           AS withdrawNum
+            , A.DEPOSIT_BANK           AS depositBank
+            , A.DEPOSIT_NUM            AS depositNum
+            , A.RECEIVE_NO             AS reveiveNo
+            , A.RECEIVE_MONEY          AS receiveMoney
+            , A.REMARK                 AS remark
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.WITHDRAW_BANK
+               ) AS withdrawBankName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.DEPOSIT_BANK
+               ) AS depositBankName
+            , (SELECT USER_NAME
+                 FROM T_USER
+                WHERE USER_NO = A.RECEIVE_NO
+               ) AS reveiveName
+        FROM T_PAY A
+       WHERE A.PAY_NO = #{payNo}
+    ]]>
+    </select>
+    
+    <insert id="insertPay" parameterType="com.greenhi.admin.pay.vo.PayVO">
+        INSERT INTO T_PAY (
+              CREATE_TIME
+            , CREATE_USER
+            , MODIFY_TIME
+            , MODIFY_USER
+            , IS_DELETE
+            , IS_USE
+            , PAY_DATE
+            , WITHDRAW_BANK
+            , WITHDRAW_NUM
+            , DEPOSIT_BANK
+            , DEPOSIT_NUM
+            , RECEIVE_NO
+            , RECEIVE_MONEY
+            , REMARK
+        ) VALUES (
+             now()
+            ,#{createUser}
+            ,now()
+            ,0
+            ,'N'
+            ,#{isUse}
+            ,#{payDate}
+            ,#{withdrawBank}
+            ,#{withdrawNum}
+            ,#{depositBank}
+            ,#{depositNum}
+            ,#{reveiveNo}
+            ,#{receiveMoney}
+            ,#{remark}
+        )
+		<selectKey resultType="long" keyProperty="payNo" order="AFTER">
+			SELECT LAST_INSERT_ID()  
+		</selectKey>
+    </insert>
+    
+    <update id="updatePay" parameterType="com.greenhi.admin.pay.vo.PayVO">
+        UPDATE T_PAY SET
+              MODIFY_TIME = now()
+            , MODIFY_USER = #{modifyUser}
+            , IS_USE = #{isUse}
+            , PAY_DATE = #{payDate}
+            , WITHDRAW_BANK = #{withdrawBank}
+            , WITHDRAW_NUM = #{withdrawNum}
+            , DEPOSIT_BANK = #{depositBank}
+            , DEPOSIT_NUM = #{depositNum}
+            , RECEIVE_NO = #{reveiveNo}
+            , RECEIVE_MONEY = #{receiveMoney}
+            , REMARK = #{remark}
+        WHERE PAY_NO = #{payNo}
+    </update>
+    
+    <update id="deletePay" parameterType="com.greenhi.admin.pay.vo.PayVO">
+        UPDATE T_PAY SET
+              IS_DELETE = #{isDelete}
+            , MODIFY_USER = #{modifyUser}
+            , MODIFY_TIME = now()
+        WHERE PAY_NO = #{payNo}
+    </update>
+    
+</mapper>
