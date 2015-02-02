@@ -6,7 +6,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 	
     <meta charset="UTF-8">
-    <title>Amuseway Admin</title>
+    <title>Greenhi system</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
 	<script type="text/javascript">
@@ -85,4 +85,5 @@
 	<script src="${contextPath}/resources/js/util.js?2014082101"></script>
 	<script src="${contextPath}/resources/js/user.js?2014082101"></script>
 	<script src="${contextPath}/resources/js/code.js?2014082101"></script>
+	<script src="${contextPath}/resources/js/bankBranch.js?2014082101"></script>
     

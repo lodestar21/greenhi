@@ -79,10 +79,10 @@
             </if>
         </if>
         <if test="orderBy == 'ASC'">
-        	ORDER BY A.USER_NO ASC
+        	ORDER BY A.BRANCH_NO ASC
         </if>
         <if test="orderBy != 'ASC'">
-        	ORDER BY A.USER_NO DESC
+        	ORDER BY A.BRANCH_NO DESC
         </if>
         <if test="isExcel == false">
         	LIMIT #{startIdx}, #{recordPerPage}
@@ -201,7 +201,7 @@
             ,now()
             ,0
             ,'N'
-            ,#{isUse}
+            ,'Y'
             ,#{custCode}
             ,#{bankCode}
             ,#{branchStateCode}
@@ -223,7 +223,6 @@
         UPDATE T_BANK_BRANCH SET
               MODIFY_TIME = now()
             , MODIFY_USER = #{modifyUser}
-            , IS_USE = #{isUse}
             , CUST_CODE = #{custCode}
             , BANK_CODE = #{bankCode}
             , BRANCH_STATE_CODE = #{branchStateCode}

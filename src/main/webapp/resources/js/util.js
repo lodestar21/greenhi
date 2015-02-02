@@ -343,3 +343,42 @@ var util = {
 		return yearPart+"."+monPartStr+"."+datePartStr;
 	}
 };
+
+/**
+ * DIV 팝업창
+ */
+var dialog = {
+
+	/**
+	 * iframe을 팝업창으로 띄울경우
+	 * 
+	 * @param Title
+	 * @param Src
+	 */
+	iframe : function(Title, url) {
+		var Frame = '';
+
+		Frame += '<div id="dialogModal">';
+		Frame += '	<div style="width: 470px;height: 285px;margin: auto;">';
+		Frame += '		<iframe name="dialogIfm" id="dialogIfm" width="100%" height="100%" scrolling="no" src="'
+						+ contextPath + url + '" style="border:0px;"></iframe>';
+		Frame += '	</div>';
+		Frame += '</div>';
+		
+		$('body').prepend(Frame);
+		
+		$("#dialogModal").dialog({
+	        resizable: false,
+	        modal: true,
+	        title: Title,
+	        height: 400,
+	        width: 500,
+	        buttons: {
+	                "Close": function () {
+	                $(this).dialog('close');
+	            }
+	        }
+	    });
+		
+	}
+};

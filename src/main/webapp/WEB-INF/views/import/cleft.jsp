@@ -34,7 +34,7 @@
                         </a>
                         <ul class="treeview">
                             <li><a href="${contextPath}/User/list/1"><i class="fa fa-user"></i><span style="margin-left:10px;">회원 관리</span></a></li>
-                            <li><a href="${contextPath}/User/list/1"><i class="fa fa-credit-card" ></i><span style="margin-left:10px;">은행 지점 관리</span></a></li>
+                            <li><a href="${contextPath}/BankBranch/list/1"><i class="fa fa-credit-card" ></i><span style="margin-left:10px;">은행 지점 관리</span></a></li>
                             <li><a href="${contextPath}/User/list/1"><i class="fa fa-arrow-right"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
                             <li><a href="${contextPath}/User/list/1"><i class="fa fa-krw"></i><span style="margin-left:10px;">지급 관리</span></a></li>
                              <li><a href="${contextPath}/Code/list/1"><i class="fa fa-cogs"></i><span style="margin-left:10px;">기준 정보 관리</span></a></li>
