@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenhi.admin.bank.dao.DayBankBranchDAO">
+
+    <select id="list" parameterType="com.greenhi.admin.bank.vo.DayBankBranchVO" resultType="com.greenhi.admin.bank.vo.DayBankBranchVO">
+    <![CDATA[
+        SELECT
+              A.BRANCH_NO              AS branchNo
+            , A.CREATE_TIME            AS createTime
+            , A.CREATE_USER            AS createUser
+            , A.CUST_CODE              AS custCode
+            , A.BANK_CODE              AS bankCode
+            , A.CLEAN_USER_NO          AS cleanUserNo
+            , B.CLEAN_DATE             AS cleanDate
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 600
+                  AND CODE_ID = A.CUST_CODE
+               ) AS custCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = A.BANK_CODE
+               ) AS bankCodeName
+            , (SELECT USER_NAME
+                 FROM T_USER
+                WHERE USER_NO = A.CLEAN_USER_NO
+               ) AS cleanUserName
+        FROM T_BANK_BRANCH A
+        LEFT OUTER JOIN T_DAY_BANK_BRANCH B ON A.BRANCH_NO = B.BRANCH_NO AND B.CLEAN_DATE = #{cleanDate}
+       WHERE A.IS_DELETE = 'N'
+         AND A.CUST_CODE = #{custCode}
+    ]]>
+        ORDER BY A.SITE_NAME ASC
+    </select>
+    
+    <insert id="insertDayBankBranch" parameterType="com.greenhi.admin.bank.vo.DayBankBranchVO">
+        INSERT INTO T_DAY_BANK_BRANCH (
+              CREATE_TIME
+            , CREATE_USER
+            , CLEAN_DATE
+            , BRANCH_NO
+        ) VALUES (
+             now()
+            ,#{createUser}
+            ,#{cleanDate}
+            ,#{branchNo}
+        )
+    </insert>
+    
+    <update id="deleteDayBankBranch" parameterType="com.greenhi.admin.bank.vo.DayBankBranchVO">
+        DELETE FROM T_DAY_BANK_BRANCH
+        WHERE CLEAN_DATE = #{cleanDate}
+          AND BRANCH_NO IN (SELECT BRANCH_NO FROM T_BANK_BRANCH WHERE CUST_CODE = #{custCode})
+    </update>
+    
+</mapper>
