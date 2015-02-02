@@ -111,7 +111,7 @@
 									</c:forEach>
 								</table>
 							</div>
-					 		<c:import url="../import/paging.jsp?pageNum=${pageNum}&totalCount=${totalCount}&pm=user.listPage" />
+					 		<c:import url="../import/paging.jsp?pageNum=${pageNum}&totalCount=${totalCount}&pm=bankBranch.listPage" />
                         </div>
 					</div>
 				</div>

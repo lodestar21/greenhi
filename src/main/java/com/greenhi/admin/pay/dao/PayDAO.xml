@@ -50,10 +50,10 @@
         </if>
         <if test="isEqualSearch == false ">
             <if test="searchField == 1">
-            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME LIKE CONCAT('%', #{searchWord}, '%'))
             </if>
             <if test="searchField == 2">
-            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME LIKE CONCAT('%', #{searchWord}, '%'))
             </if>
         </if>
         <if test="orderBy == 'ASC'">
@@ -88,10 +88,10 @@
         </if>
         <if test="isEqualSearch == false ">
             <if test="searchField == 1">
-            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            	AND A.RECEIVE_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME LIKE CONCAT('%', #{searchWord}, '%'))
             </if>
             <if test="searchField == 2">
-            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            	AND A.WITHDRAW_BANK IN (SELECT CODE_ID FROM T_CODE WHERE UPER_CODE = 400 AND CODE_NAME LIKE CONCAT('%', #{searchWord}, '%'))
             </if>
         </if>
     </select>
@@ -154,7 +154,7 @@
             ,now()
             ,0
             ,'N'
-            ,#{isUse}
+            ,'Y'
             ,#{payDate}
             ,#{withdrawBank}
             ,#{withdrawNum}
@@ -173,7 +173,6 @@
         UPDATE T_PAY SET
               MODIFY_TIME = now()
             , MODIFY_USER = #{modifyUser}
-            , IS_USE = #{isUse}
             , PAY_DATE = #{payDate}
             , WITHDRAW_BANK = #{withdrawBank}
             , WITHDRAW_NUM = #{withdrawNum}

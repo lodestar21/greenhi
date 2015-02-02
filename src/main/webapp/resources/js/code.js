@@ -42,7 +42,7 @@ var code = {
 				alert(res.message);
 				if ( res.status == 200 ) {
 					//window.location = contextPath + "/Code/get/" + res.data;
-					window.location = contextPath + "/Code/list/0";
+					window.location = contextPath + "/Code/list/1";
 				}
 			},
 			error : function(data, status, e) {
@@ -71,7 +71,7 @@ var code = {
 				alert(res.message);
 				if ( res.status == 200 ) {
 					//window.location = contextPath + "/Code/get/" + $("#codeId").val();
-					window.location = contextPath + "/Code/list/0";
+					window.location = contextPath + "/Code/list/1";
 				}
 			},
 			error : function(data, status, e) {
@@ -169,7 +169,7 @@ var code = {
 				var res = data;
 				alert(res.message);
 				if ( res.status == 200 ) {
-					window.location = contextPath + "/Code/list/0";
+					window.location = contextPath + "/Code/list/1";
 				}
 			},
 			error : function(data, status, e) {

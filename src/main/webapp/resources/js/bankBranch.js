@@ -55,7 +55,7 @@ var bankBranch = {
 				alert(res.message);
 				if ( res.status == 200 ) {
 					//window.location = contextPath + "/BankBranch/get/" + res.data;
-					window.location = contextPath + "/BankBranch/list/0";
+					window.location = contextPath + "/BankBranch/list/1";
 				}
 			},
 			error : function(data, status, e) {
@@ -110,7 +110,7 @@ var bankBranch = {
 				alert(res.message);
 				if ( res.status == 200 ) {
 					//window.location = contextPath + "/BankBranch/get/" + $("#codeId").val();
-					window.location = contextPath + "/BankBranch/list/0";
+					window.location = contextPath + "/BankBranch/list/1";
 				}
 			},
 			error : function(data, status, e) {
@@ -138,7 +138,7 @@ var bankBranch = {
 				var res = data;
 				alert(res.message);
 				if ( res.status == 200 ) {
-					window.location = contextPath + "/BankBranch/list/0";
+					window.location = contextPath + "/BankBranch/list/1";
 				}
 			},
 			error : function(data, status, e) {

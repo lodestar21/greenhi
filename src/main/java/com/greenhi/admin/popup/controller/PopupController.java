@@ -41,7 +41,7 @@ public class PopupController {
 	 * @history 
 	 */
 	@RequestMapping( "/cleanUser" )
-	public String userPopUp( HttpSession session,
+	public String cleanUserPopUp( HttpSession session,
 			Model model,
 			@ModelAttribute UserVO data) throws Exception {
 
@@ -63,7 +63,40 @@ public class PopupController {
 		model.addAttribute("result", list );
 		model.addAttribute("search", data );
 		
-		return "/popup/user_popup";
+		return "/popup/cleanUser_popup";
 	}
-	
+
+	/**
+	 * 수급자(사용자) 팝업 조회
+	 * 
+	 * @param   
+	 * @return  
+	 * @throws  
+	 * @history 
+	 */
+	@RequestMapping( "/reveiveUser" )
+	public String reveiveUserPopUp( HttpSession session,
+			Model model,
+			@ModelAttribute UserVO data) throws Exception {
+
+		List<UserVO> list = null;
+		int totalCount = 0;
+
+		data.setEqualSearch( false );
+		data.setSearchField( 1 );
+		if ( StringUtil.isEmpty( data.getUserName() ) ) {
+			data.setUserName( "" );
+		}
+		data.setSearchWord( data.getUserName());
+		data.setExcel( true );
+		//data.setUserType( 103 );
+		list = userService.list(data);
+		totalCount = userService.listCount( data );
+
+		model.addAttribute("resultCount", totalCount);
+		model.addAttribute("result", list );
+		model.addAttribute("search", data );
+		
+		return "/popup/reveiveUser_popup";
+	}
 }
