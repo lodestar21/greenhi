@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenhi.admin.clean.dao.CleanInfoDAO">
+
+    <select id="list" parameterType="com.greenhi.admin.clean.vo.CleanInfoVO" resultType="com.greenhi.admin.clean.vo.CleanInfoVO">
+			SELECT
+			       A.BRANCH_NO            AS branchNo
+			     , A.CLEAN_USER_NO        AS cleanUserNo
+			     , A.CLEAN_DATE           AS cleanDate
+			     , A.custCodeName         AS custCodeName
+			     , A.bankCodeName         AS bankCodeName
+			     , A.localCodeName        AS localCodeName
+			     , A.cleanUserName        AS cleanUserName
+			     , A.SITE_NAME            AS siteName
+			     , A.CLEAN_NO             AS cleanNo
+			     , A.stateCode1           AS stateCodeName1
+			     , A.stateCode2           AS stateCodeName2
+			     , A.stateCode3           AS stateCodeName3
+			     , A.stateCode4           AS stateCodeName4
+			     , A.stateCode5           AS stateCodeName5
+			     , A.REMARK               AS remark
+                 , A.CREATE_TIME            AS createTime
+			  FROM (
+					SELECT
+					       A.BRANCH_NO
+					     , A.CLEAN_USER_NO
+					     , B.CLEAN_DATE
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 600
+					           AND CODE_ID = A.CUST_CODE
+					        ) AS custCodeName
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 400
+					           AND CODE_ID = A.BANK_CODE
+					        ) AS bankCodeName
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 300
+					           AND CODE_ID = A.LOCAL_CODE
+					        ) AS localCodeName
+					     , (SELECT USER_NAME
+					          FROM T_USER
+					         WHERE USER_NO = A.CLEAN_USER_NO
+					        ) AS cleanUserName
+					     , A.SITE_NAME
+					     , IFNULL(C.CLEAN_NO, 0) AS CLEAN_NO
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 700
+					           AND CODE_ID = C.STATE_CODE1
+					        ) AS stateCode1
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 700
+					           AND CODE_ID = C.STATE_CODE2
+					        ) AS stateCode2
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 700
+					           AND CODE_ID = C.STATE_CODE3
+					        ) AS stateCode3
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 700
+					           AND CODE_ID = C.STATE_CODE4
+					        ) AS stateCode4
+					     , (SELECT CODE_NAME
+					          FROM T_CODE
+					         WHERE UPER_CODE = 700
+					           AND CODE_ID = C.STATE_CODE5
+					        ) AS stateCode5
+					     , C.REMARK
+                         , C.CREATE_TIME
+					  FROM T_BANK_BRANCH A
+					  INNER JOIN T_DAY_BANK_BRANCH B ON A.BRANCH_NO = B.BRANCH_NO
+					  LEFT OUTER JOIN T_CLEAN C ON C.IS_DELETE = 'N' 
+					                           AND C.IS_USE = 'Y' 
+					                           AND C.BRANCH_NO = B.BRANCH_NO 
+														AND C.CLEAN_DATE = B.CLEAN_DATE 
+														AND C.CREATE_USER = A.CLEAN_USER_NO
+					 WHERE A.IS_DELETE = 'N'
+					   AND A.IS_USE = 'Y'
+        			<if test="cleanUserNo > 0">
+					   AND A.CLEAN_USER_NO = #{cleanUserNo}
+        			</if>
+					   AND B.CLEAN_DATE = #{cleanDate}
+				  ) A
+				WHERE 1 = 1
+				ORDER BY A.CLEAN_DATE, A.custCodeName, A.bankCodeName
+	        <if test="isExcel == false">
+	        	LIMIT #{startIdx}, #{recordPerPage}
+	        </if>
+    </select>
+    
+    <select id="listCount" parameterType="com.greenhi.admin.clean.vo.CleanInfoVO" resultType="int">
+			SELECT
+			       COUNT(*) AS cnt
+			  FROM (
+					SELECT
+					       A.BRANCH_NO
+					  FROM T_BANK_BRANCH A
+					  INNER JOIN T_DAY_BANK_BRANCH B ON A.BRANCH_NO = B.BRANCH_NO
+					  LEFT OUTER JOIN T_CLEAN C ON C.IS_DELETE = 'N' 
+					                           AND C.IS_USE = 'Y' 
+					                           AND C.BRANCH_NO = B.BRANCH_NO 
+														AND C.CLEAN_DATE = B.CLEAN_DATE 
+														AND C.CREATE_USER = A.CLEAN_USER_NO
+					 WHERE A.IS_DELETE = 'N'
+					   AND A.IS_USE = 'Y'
+					   
+        			<if test="custCode > 0">
+					   AND A.CLEAN_USER_NO = #{cleanUserNo}
+        			</if>
+					   AND B.CLEAN_DATE = #{cleanDate}
+				  ) A
+				WHERE 1 = 1
+    </select>
+    
+    <select id="get" parameterType="com.greenhi.admin.clean.vo.CleanVO" resultType="com.greenhi.admin.clean.vo.CleanVO">
+    <![CDATA[
+		SELECT
+		       A.CLEAN_NO            AS cleanNo
+		     , A.CREATE_TIME         AS createTime
+		     , A.CREATE_USER         AS createUser
+		     , A.MODIFY_TIME         AS modifyTime
+		     , A.MODIFY_USER         AS modifyUser
+		     , A.BRANCH_NO           AS branchNo
+		     , A.CLEAN_DATE         AS cleanDate
+		     , A.START_TIME         AS startTime
+		     , A.END_TIME           AS endTime
+		     , A.STATE_CODE1         AS stateCode1
+		     , A.STATE_CODE2         AS stateCode2
+		     , A.STATE_CODE3         AS stateCode3
+		     , A.STATE_CODE4         AS stateCode4
+		     , A.STATE_CODE5         AS stateCode5
+		     , A.REMARK              AS remark
+		     , A.PHOTO_IMG1         AS photoImg1
+		     , A.PHOTO_IMG1_INFO    AS photoImg1Info
+		     , A.PHOTO_IMG2         AS photoImg2
+		     , A.PHOTO_IMG2_INFO    AS photoImg2Info
+		     , A.PHOTO_IMG3         AS photoImg3
+		     , A.PHOTO_IMG3_INFO    AS photoImg3Info
+		     , A.PHOTO_IMG4         AS photoImg4
+		     , A.PHOTO_IMG4_INFO    AS photoImg4Info
+		     , A.PHOTO_IMG5         AS photoImg5
+		     , A.PHOTO_IMG5_INFO    AS photoImg5Info
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 600
+                  AND CODE_ID = B.CUST_CODE
+               ) AS custCodeName
+            , (SELECT CODE_NAME
+                 FROM T_CODE
+                WHERE UPER_CODE = 400
+                  AND CODE_ID = B.BANK_CODE
+               ) AS bankCodeName
+            , B.SITE_NAME AS siteName
+		  FROM T_CLEAN A
+  		 INNER JOIN T_BANK_BRANCH B ON A.BRANCH_NO = B.BRANCH_NO
+		 WHERE A.IS_DELETE = 'N' 
+			 AND A.IS_USE = 'Y' 
+             AND A.CLEAN_NO = #{cleanNo}
+    ]]>
+    </select>
+    
+    <insert id="insertClean" parameterType="com.greenhi.admin.clean.vo.CleanVO">
+        INSERT INTO T_CLEAN (
+              CREATE_TIME
+            , CREATE_USER
+            , MODIFY_TIME
+            , MODIFY_USER
+            , IS_DELETE
+            , IS_USE
+            , BRANCH_NO
+            , CLEAN_DATE
+            , START_TIME
+            , END_TIME
+            , STATE_CODE1
+            , STATE_CODE2
+            , STATE_CODE3
+            , STATE_CODE4
+            , STATE_CODE5
+            , REMARK
+            , PHOTO_IMG1
+            , PHOTO_IMG1_INFO
+            , PHOTO_IMG2
+            , PHOTO_IMG2_INFO
+            , PHOTO_IMG3
+            , PHOTO_IMG3_INFO
+            , PHOTO_IMG4
+            , PHOTO_IMG4_INFO
+            , PHOTO_IMG5
+            , PHOTO_IMG5_INFO
+        ) VALUES (
+             now()
+            ,#{createUser}
+            ,now()
+            ,0
+            ,'N'
+            ,'Y'
+            ,#{branchNo}
+            ,#{cleanDate}
+            ,#{startTime}
+            ,#{endTime}
+            ,#{stateCode1}
+            ,#{stateCode2}
+            ,#{stateCode3}
+            ,#{stateCode4}
+            ,#{stateCode5}
+            ,#{remark}
+            ,#{photoImg1}
+            ,#{photoImg1Info}
+            ,#{photoImg2}
+            ,#{photoImg2Info}
+            ,#{photoImg3}
+            ,#{photoImg3Info}
+            ,#{photoImg4}
+            ,#{photoImg4Info}
+            ,#{photoImg5}
+            ,#{photoImg5Info}
+        )
+		<selectKey resultType="long" keyProperty="cleanNo" order="AFTER">
+			SELECT LAST_INSERT_ID()  
+		</selectKey>
+    </insert>
+    
+    <update id="updateClean" parameterType="com.greenhi.admin.clean.vo.CleanVO">
+        UPDATE T_CLEAN SET
+              MODIFY_TIME = now()
+            , MODIFY_USER = #{modifyUser}
+            , START_TIME = #{startTime}
+            , END_TIME = #{endTime}
+            , STATE_CODE1 = #{stateCode1}
+            , STATE_CODE2 = #{stateCode2}
+            , STATE_CODE3 = #{stateCode3}
+            , STATE_CODE4 = #{stateCode4}
+            , STATE_CODE5 = #{stateCode5}
+            , REMARK = #{remark}
+            , PHOTO_IMG1 = #{photoImg1}
+            , PHOTO_IMG1_INFO = #{photoImg1Info}
+            , PHOTO_IMG2 = #{photoImg2}
+            , PHOTO_IMG2_INFO = #{photoImg2Info}
+            , PHOTO_IMG3 = #{photoImg3}
+            , PHOTO_IMG3_INFO = #{photoImg3Info}
+            , PHOTO_IMG4 = #{photoImg4}
+            , PHOTO_IMG4_INFO = #{photoImg4Info}
+            , PHOTO_IMG5 = #{photoImg5}
+            , PHOTO_IMG5_INFO = #{photoImg5Info}
+        WHERE CLEAN_NO = #{cleanNo}
+    </update>
+    
+    <update id="deleteClean" parameterType="com.greenhi.admin.clean.vo.CleanVO">
+        UPDATE T_CLEAN SET
+              IS_DELETE = #{isDelete}
+            , MODIFY_USER = #{modifyUser}
+            , MODIFY_TIME = now()
+        WHERE CLEAN_NO = #{cleanNo}
+    </update>
+    
+</mapper>

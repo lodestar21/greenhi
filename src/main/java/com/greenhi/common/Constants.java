@@ -16,7 +16,22 @@ public class Constants {
 	public void setSERVER_NAME(String pSERVER_NAME) {
 		SERVER_NAME = pSERVER_NAME;
 	}
-	
+
+	/**
+	 * Image Url
+	 */
+	public static String VIEW_IMG_URL;
+	public void setVIEW_IMG_URL(String pVIEW_IMG_URL) {
+		VIEW_IMG_URL = pVIEW_IMG_URL;
+	}
+
+	/**
+	 * Image Url
+	 */
+	public static String IMG_URL;
+	public void setIMG_URL(String pIMG_URL) {
+		IMG_URL = pIMG_URL;
+	}
 	/**
 	 * 사용자 세션키
 	 */

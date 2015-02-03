@@ -6,4 +6,6 @@
 	<entry key="dataSource.url">jdbc:mysql://1.234.79.234:3306/greenhi_db?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</entry>
 	<entry key="dataSource.username">greenhi</entry>
 	<entry key="dataSource.password">greenhi3#</entry>
+	<entry key="img.url">C:\\workspace\\greenhi\\src\\main\\webapp\\resources\\images\\test\\</entry>
+	<entry key="view.img.url">http://localhost:8080/greenhi/resources/images/test/</entry>
 </properties>

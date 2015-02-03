@@ -24,6 +24,8 @@
 	
 	<bean class="com.greenhi.common.Constants">
 		<property name="SERVER_NAME" value="${server.name}"/>
+		<property name="IMG_URL" value="${img.url}"/>
+		<property name="VIEW_IMG_URL" value="${view.img.url}"/>
 	</bean>
 
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">

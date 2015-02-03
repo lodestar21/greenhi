@@ -50,7 +50,7 @@
                         </ul>
                     </li>
                      <li>
-                        <a href="${contextPath}/">
+                        <a href="${contextPath}/UserCleanInfo/userList">
                           <i class="fa fa-camera"></i> <span>청소 데이터 등록</span>
                         </a>
                     </li>

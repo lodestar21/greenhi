@@ -87,4 +87,5 @@
 	<script src="${contextPath}/resources/js/code.js?2014082101"></script>
 	<script src="${contextPath}/resources/js/bankBranch.js?2014082101"></script>
 	<script src="${contextPath}/resources/js/pay.js?2014082101"></script>
+	<script src="${contextPath}/resources/js/clean.js?2014082101"></script>
     
