@@ -30,16 +30,6 @@ public interface DayBankBranchService {
      * @return DayBankBranchVO 처리 완료 된 일자별 은행 지점정보
      * @throws Exception
      */
-    public long insertDayBankBranch( DayBankBranchVO data ) throws Exception;  
-
-    /**
-     * 일자별 은행 지점 삭제
-     * 
-     * @param data 일자별 은행 지점 삭제 데이타
-     * @return int 결과
-     * @throws Exception
-     * @history 
-     */
-    public int deleteDayBankBranch( DayBankBranchVO data ) throws Exception;
+    public int saveDayBankBranch( DayBankBranchVO data, String [] dayBankBranchArray ) throws Exception;  
 
 }

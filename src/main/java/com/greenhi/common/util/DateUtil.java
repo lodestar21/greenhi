@@ -449,6 +449,11 @@ public class DateUtil {
 		return dFullForm.format( new Date() );
 	}
 
+	public static String getFullTimeStr2() {
+
+		return dDashForm.format( new Date() );
+	}
+	
 	public static String getFullTimeStr( Date date ) {
 
 		return dFullForm.format( date );

@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.greenhi.admin.bank.dao.DayBankBranchDAO;
 import com.greenhi.admin.bank.service.DayBankBranchService;
@@ -47,41 +46,35 @@ public class DayBankBranchServiceImpl implements DayBankBranchService {
 	}
 
 	@Override
-    public long insertDayBankBranch( DayBankBranchVO data ) throws Exception {
+    public int saveDayBankBranch( DayBankBranchVO data, String [] dayBankBranchArray ) throws Exception {
     	if(logger.isDebugEnabled())
-    		logger.debug("insertDayBankBranch data : {}", data.toString());
+    		logger.debug("saveDayBankBranch data : {}", data.toString());
 
-		int result = 0;
+		int result = 1;
 
 		try {
 
+			// 일자별 은행 지점 삭제 처리
+			dayBankBranchDao.deleteDayBankBranch( data );
+
 	    	//일자별 은행 지점 등록
-			result = dayBankBranchDao.insertDayBankBranch( data );
-	    	
+			if ( dayBankBranchArray != null ) {
+
+				for (String branchNo : dayBankBranchArray) {
+					DayBankBranchVO branchNoVo = new DayBankBranchVO();
+					branchNoVo.setCreateUser( data.getCreateUser() );
+					branchNoVo.setCleanDate( data.getCleanDateP() );
+					branchNoVo.setBranchNo( Long.parseLong( branchNo ) );
+
+					result += dayBankBranchDao.insertDayBankBranch( branchNoVo );
+				}
+		    	
+			}
 		} catch ( SQLException se ) {
     		throw new ApplicationException(Status.FAIL, "일자별 은행 지점  등록 실패(DB)");
 		}
 		
         return result;
     }
-
-	@Override
-	@Transactional
-	public int deleteDayBankBranch( DayBankBranchVO data ) throws Exception {
-    	if(logger.isDebugEnabled())
-    		logger.debug("deleteDayBankBranch data : {}", data.toString());
-
-		int result = 0;
-
-		try {
-			
-			result = dayBankBranchDao.deleteDayBankBranch( data );
-
-		} catch ( SQLException se ) {
-			throw new Exception( "일자별 은행 지점 삭제 실패(DB)", se );
-		}
-
-        return result;
-	}
 
 }

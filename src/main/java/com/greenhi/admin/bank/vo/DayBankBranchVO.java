@@ -25,6 +25,24 @@ public class DayBankBranchVO implements Serializable {
 	private String custCodeName;
 	private String bankCodeName;
 	private String cleanUserName;
+	private String cleanDateP;
+	private int custCodeP;
+
+	public int getCustCodeP() {
+		return custCodeP;
+	}
+
+	public void setCustCodeP(int custCodeP) {
+		this.custCodeP = custCodeP;
+	}
+
+	public String getCleanDateP() {
+		return cleanDateP;
+	}
+
+	public void setCleanDateP(String cleanDateP) {
+		this.cleanDateP = cleanDateP;
+	}
 
 	public String getCleanUserName() {
 		return cleanUserName;

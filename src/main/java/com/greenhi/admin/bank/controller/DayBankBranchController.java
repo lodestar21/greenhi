@@ -12,18 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.greenhi.admin.bank.service.DayBankBranchService;
 import com.greenhi.admin.bank.vo.DayBankBranchVO;
 import com.greenhi.admin.code.service.CodeService;
+import com.greenhi.admin.code.vo.CodeVO;
 import com.greenhi.admin.user.vo.UserVO;
 import com.greenhi.common.Constants;
 import com.greenhi.common.response.ResponseVO;
+import com.greenhi.common.util.DateUtil;
+import com.greenhi.common.util.StringUtil;
 
 
 /**
@@ -53,19 +54,26 @@ public class DayBankBranchController {
 	 * @throws Exception
 	 * @history 
 	 */
-	@RequestMapping( "/list/{pageNum}" )
+	@RequestMapping( "/list" )
 	public String list( HttpSession session,
 			HttpServletRequest req,
 			HttpServletResponse res,
 			@ModelAttribute( "search" ) DayBankBranchVO search,
-			@PathVariable( "pageNum" ) int pageNum,
-			@RequestParam( value = "isFirst", defaultValue = "true", required = false ) boolean isFirst,
 			Model model ) throws Exception {
 		
 		List<DayBankBranchVO> list = null;
+
+		if ( StringUtil.isEmpty( search.getCleanDate() ) ) {
+			search.setCleanDate( DateUtil.getFullTimeStr2() );
+		}
 		
 		list = dayBankbranchService.list( search );
-
+		
+		// 고객사코드(600)
+		CodeVO custCodeVo = new CodeVO();
+		custCodeVo.setUperCode( 600 );
+		model.addAttribute( "custCodeList", codeService.listChildCode( custCodeVo ) );
+		
 		model.addAttribute( "list", list );
 		model.addAttribute( "search", search );
 		
@@ -81,10 +89,9 @@ public class DayBankBranchController {
 	 * @history 
 	 */
 	@ResponseBody
-	@RequestMapping( value = "/delete", method = RequestMethod.POST )
-	public ResponseVO delete( 
-			@RequestParam(required=true, value="cleanDate") String cleanDate,
-			@RequestParam(required=true, value="custCode") int custCode,
+	@RequestMapping( value = "/save", method = RequestMethod.POST )
+	public ResponseVO save( 
+			@ModelAttribute("dayBankBranch") DayBankBranchVO dayBankBranch,
 			Model model,
 			HttpServletRequest req,
 			HttpServletResponse res,
@@ -93,24 +100,21 @@ public class DayBankBranchController {
 		ResponseVO result = new ResponseVO();
 
 		UserVO adminUser = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
-		
-		DayBankBranchVO dayVo = new DayBankBranchVO();
-		dayVo.setCreateUser( adminUser.getUserNo() );
-		dayVo.setCleanDate( cleanDate );
-		dayVo.setCustCode( custCode );
-		
-		// 전체 삭제
-		dayBankbranchService.deleteDayBankBranch( dayVo );
+		dayBankBranch.setCreateUser( adminUser.getUserNo() );
 
-		String[] branchNoList = req.getParameterValues( "branchNo" );
+		String[] dayBankBranchArray = req.getParameterValues( "branchNoP" );
 		
-		for( int i=0; i< branchNoList.length; i++ ){
-			dayVo.setBranchNo( Long.parseLong( branchNoList[i] ) );
-			dayBankbranchService.insertDayBankBranch( dayVo );
+		int i = dayBankbranchService.saveDayBankBranch( dayBankBranch, dayBankBranchArray);
+		
+		if ( i < 1 ) {
+			result.setStatus( 400 );
+			result.setMessage( "일자별 은행 지점 저장 중 오류가 발생 했습니다." );
+			return result;
+		} else {
+			result.setStatus( 200 );
+			result.setMessage( "일자별 은행 지점 저장 되었습니다." );
 		}
 		
-		result.setStatus( 400 );
-		result.setMessage( "일자별 은행 지점 저장 중 오류가 발생 했습니다." );
 		return result;
 	}
 }

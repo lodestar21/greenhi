@@ -50,8 +50,8 @@
     
     <update id="deleteDayBankBranch" parameterType="com.greenhi.admin.bank.vo.DayBankBranchVO">
         DELETE FROM T_DAY_BANK_BRANCH
-        WHERE CLEAN_DATE = #{cleanDate}
-          AND BRANCH_NO IN (SELECT BRANCH_NO FROM T_BANK_BRANCH WHERE CUST_CODE = #{custCode})
+        WHERE CLEAN_DATE = #{cleanDateP}
+          AND BRANCH_NO IN (SELECT BRANCH_NO FROM T_BANK_BRANCH WHERE CUST_CODE = #{custCodeP})
     </update>
     
 </mapper>

@@ -38,6 +38,7 @@
                             <li><a href="${contextPath}/"><i class="fa fa-arrow-right"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
                             <li><a href="${contextPath}/Pay/list/1"><i class="fa fa-krw"></i><span style="margin-left:10px;">지급 관리</span></a></li>
                              <li><a href="${contextPath}/Code/list/1"><i class="fa fa-cogs"></i><span style="margin-left:10px;">기준 정보 관리</span></a></li>
+                             <li><a href="${contextPath}/DayBankBranch/list"><i class="fa fa-calendar"></i><span style="margin-left:10px;">작업일 관리</span></a></li>
                        </ul>
                     </li>
                     <li class="treeview">
