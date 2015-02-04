@@ -4,8 +4,29 @@
  * 파일작성 : 이원 
  ***********************************************************************************/
 var clean = {
-		
+
+	listPage : function(getParameter){
+		var url = contextPath + "/UserCleanInfo/cleanList/" + getParameter;
+		$("#searchFrom").attr("action",url);
+		$("#searchFrom").submit();
+	},
+
+	listPageCust : function(getParameter){
+		var url = contextPath + "/CustCleanInfo/cleanList/" + getParameter;
+		$("#searchFrom").attr("action",url);
+		$("#searchFrom").submit();
+	},
+	
 	get : function( cleanDate, branchNo, cleanNo ) {
+
+		$("#cleanDateParam").val(cleanDate);
+		$("#branchNoParam").val(branchNo);
+		$("#cleanNoParam").val(cleanNo);
+		$("#getForm").submit();
+		
+	},
+	
+	getCust : function( cleanDate, branchNo, cleanNo ) {
 
 		$("#cleanDateParam").val(cleanDate);
 		$("#branchNoParam").val(branchNo);
@@ -83,7 +104,7 @@ var clean = {
 				var res = data;
 				alert(res.message);
 				if ( res.status == 200 ) {
-					window.location = contextPath + "/UserCleanInfo/userList";
+					window.location = contextPath + "/UserCleanInfo/userList?cleanDate=" + $("#cleanDate").val();
 				}
 			},
 			error : function(data, status, e) {
@@ -104,7 +125,7 @@ var clean = {
 				var res = data;
 				alert(res.message);
 				if ( res.status == 200 ) {
-					window.location = contextPath + "/UserCleanInfo/userList";
+					window.location = contextPath + "/UserCleanInfo/userList?cleanDate=" + $("#cleanDate").val();
 				}
 			},
 			error : function(data, status, e) {
@@ -121,7 +142,7 @@ var clean = {
 		}
 
 		$.ajax({
-			url : contextPath + "/BankBranch/delete",
+			url : contextPath + "/UserCleanInfo/delete",
 			data : {
 				cleanNo : cleanNo,
 				isDelete : isDelete
@@ -132,7 +153,7 @@ var clean = {
 				var res = data;
 				alert(res.message);
 				if ( res.status == 200 ) {
-					window.location = contextPath + "/UserCleanInfo/userList";
+					window.location = contextPath + "/UserCleanInfo/userList?cleanDate=" + $("#cleanDate").val();
 				}
 			},
 			error : function(data, status, e) {

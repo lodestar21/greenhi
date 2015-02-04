@@ -49,7 +49,15 @@ public class CleanVO implements Serializable {
 	private long cleanNoParam;
 	private long branchNoParam;
     private String cleanDateParam;
-	
+
+    private String cleanUserName;
+    
+	public String getCleanUserName() {
+		return cleanUserName;
+	}
+	public void setCleanUserName(String cleanUserName) {
+		this.cleanUserName = cleanUserName;
+	}
 	public long getCleanNoParam() {
 		return cleanNoParam;
 	}

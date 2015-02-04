@@ -56,8 +56,6 @@ public class UploadController {
 				String imgSaveName = currentTime + "_" + uuid + "." + fileExt;
 				String serverFullPath = Constants.IMG_URL + imgSaveName;
 				
-				logger.debug( "=== FileUpload serverFullPath : " + serverFullPath);
-				
 				// 파일 저장
 				byte[] bytes = uploadImg.getBytes();
 				File serverFile = new File( serverFullPath );
@@ -75,6 +73,7 @@ public class UploadController {
 						 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
 							 tagDesc = tag.getDescription();
 						 }
+						 System.out.println("=== tag : " + tag);
 					 }
 				}
 				

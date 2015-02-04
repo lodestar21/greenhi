@@ -243,7 +243,7 @@
 					         		<c:if test="${editMode != 'update'}">
 									<button type="button" class="btn btn-success btn-sm" onclick="javascript:clean.regist('cleanFrm');">등록</button>
 					         		</c:if>
-								  <button type="button" class="btn btn-default btn-sm" onclick="javascript:window.location.href='${contextPath}/UserCleanInfo/userList'">목록</button>
+								  <button type="button" class="btn btn-default btn-sm" onclick="javascript:window.location.href='${contextPath}/UserCleanInfo/userList?cleanDate=${clean.cleanDate}'">목록</button>
 								</div>
 								
 							</div>

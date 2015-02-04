@@ -38,6 +38,80 @@ public class CleanInfoVO extends PagingVO {
 	private boolean isExcel;
 	private int totalCnt;
 
+    private String isClean;
+
+	private int custCode;
+	private int bankCode;
+	private int localCode;
+
+    private long custUserNo;
+
+	private int stateCode1;
+	private int stateCode2;
+	private int stateCode3;
+	private int stateCode4;
+	private int stateCode5;
+	
+	public int getStateCode1() {
+		return stateCode1;
+	}
+	public void setStateCode1(int stateCode1) {
+		this.stateCode1 = stateCode1;
+	}
+	public int getStateCode2() {
+		return stateCode2;
+	}
+	public void setStateCode2(int stateCode2) {
+		this.stateCode2 = stateCode2;
+	}
+	public int getStateCode3() {
+		return stateCode3;
+	}
+	public void setStateCode3(int stateCode3) {
+		this.stateCode3 = stateCode3;
+	}
+	public int getStateCode4() {
+		return stateCode4;
+	}
+	public void setStateCode4(int stateCode4) {
+		this.stateCode4 = stateCode4;
+	}
+	public int getStateCode5() {
+		return stateCode5;
+	}
+	public void setStateCode5(int stateCode5) {
+		this.stateCode5 = stateCode5;
+	}
+	public long getCustUserNo() {
+		return custUserNo;
+	}
+	public void setCustUserNo(long custUserNo) {
+		this.custUserNo = custUserNo;
+	}
+	public int getCustCode() {
+		return custCode;
+	}
+	public void setCustCode(int custCode) {
+		this.custCode = custCode;
+	}
+	public int getBankCode() {
+		return bankCode;
+	}
+	public void setBankCode(int bankCode) {
+		this.bankCode = bankCode;
+	}
+	public int getLocalCode() {
+		return localCode;
+	}
+	public void setLocalCode(int localCode) {
+		this.localCode = localCode;
+	}
+	public String getIsClean() {
+		return isClean;
+	}
+	public void setIsClean(String isClean) {
+		this.isClean = isClean;
+	}
 	public Date getCreateTime() {
 		return createTime;
 	}

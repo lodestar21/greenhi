@@ -46,7 +46,7 @@
                             <i class="fa fa-edit"></i> <span>은행별 환경 관리</span>
                           </a>
                         <ul class="treeview">
-                           <li><a href="${contextPath}/"><i class="fa fa-dashboard"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
+                           <li><a href="${contextPath}/CustCleanInfo/cleanList/1"><i class="fa fa-dashboard"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
                         </ul>
                     </li>
                      <li>

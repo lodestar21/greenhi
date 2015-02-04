@@ -31,6 +31,17 @@
 			}
 			$('#searchFrom').submit();			
 		}
+
+		function search() {
+	
+			if ( $("#cleanDate").val() == '' ){
+				alert("작업일을 선택해주세요.");
+				 $("#cleanDate").focus();
+				return;
+			}
+			window.location = contextPath + "/UserCleanInfo/cleanList/1";
+		}
+		
 	</script>
 </head>
     <body class="skin-black">

@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.greenhi.admin.bank.service.BankBranchService;
@@ -51,7 +53,49 @@ public class CleanInfoController {
     
     @Autowired
     private BankBranchService bankbranchService;
-    
+
+	/**
+	 * 청소 리스트 조회
+	 * 
+	 * @param  search 조회 조건, pageNum 페이지 번호, isFirst 처음 유무
+	 * @return 리스트 화면
+	 * @throws Exception
+	 * @history 
+	 */
+	@RequestMapping( "/cleanList/{pageNum}" )
+	public String list( HttpSession session,
+			HttpServletRequest req,
+			HttpServletResponse res,
+			@ModelAttribute( "search" ) CleanInfoVO search,
+			@PathVariable( "pageNum" ) int pageNum,
+			@RequestParam( value = "isFirst", defaultValue = "true", required = false ) boolean isFirst,
+			Model model ) throws Exception {
+		
+		// 페이지
+		if ( pageNum != 0 ) {
+			search.setPageNum( pageNum );
+		}
+		
+		int totalCount = 0;
+
+		List<CleanInfoVO> list = null;
+
+		UserVO adminUser = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+		search.setCleanUserNo( adminUser.getUserNo() );
+		
+		list = cleanInfoService.list( search );
+		totalCount = cleanInfoService.listCount( search );
+		
+		model.addAttribute( "startIdx", search.getStartIdx() );
+		model.addAttribute( "recPerPage", search.getRecordPerPage() );
+		model.addAttribute( "list", list );
+		model.addAttribute( "pageNum", pageNum );
+		model.addAttribute( "totalCount", totalCount );
+		model.addAttribute( "search", search );
+		
+		return "clean/list";
+	}
+	
 	/**
 	 * 청소 리스트 조회
 	 * 
