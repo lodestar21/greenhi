@@ -73,7 +73,7 @@ public class UploadController {
 						 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
 							 tagDesc = tag.getDescription();
 						 }
-						 System.out.println("=== tag : " + tag);
+						 logger.info("=== tag : " + tag);
 					 }
 				}
 				
