@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 
+
+import com.greenhi.admin.user.vo.UserVO;
 import com.greenhi.common.Constants;
 
 /**
@@ -27,6 +29,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
     
 	private final static String loginUrl = "login";
+	private final static String logoutUrl = "logout";
     
 	@Autowired
 	private MessageSource messages;
@@ -37,9 +40,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 
 		HttpSession session = request.getSession();
 		
-		System.out.println("== request.getRequestURI() : " + request.getRequestURI());
-		System.out.println("== request.getRequestURL() : " + request.getRequestURL());
-
 		String[] urlArray = request.getRequestURI().split( "/" );
 		if ( urlArray.length < 1 ) {
 			return true;
@@ -48,10 +48,27 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 
 		if ( session.getAttribute( Constants.ADMIN_INFO_KEY ) != null ) {
 
-			logger.info("=== url1 : " + urlArray[0]);
-			logger.info("=== url2 : " + urlArray[1]);
-			logger.info("=== url3 : " + urlArray[2]);
-			logger.info("=== url4 : " + urlArray[3]);
+			if ( urlArray.length > 2 ) {
+
+				if ( !logoutUrl.equals( endUrl ) ) {
+
+					String url = urlArray[2];
+					UserVO user = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+					
+					if ( user.getUserType() == 102 && (!"CustCleanInfo".equals( url ) && !"Mypage".equals( url ) && !"Upload".equals( url ) ) ) {
+						logger.debug( "Cust Url Request fail" );
+						response.sendRedirect( request.getContextPath() + "/CustCleanInfo/cleanList/1" );
+
+						return false;
+					}	
+					if ( user.getUserType() == 103 && (!"UserCleanInfo".equals( url ) && !"Mypage".equals( url ) && !"Upload".equals( url ) ) ) {
+						logger.debug( "User Url Request fail" );
+						response.sendRedirect( request.getContextPath() + "/UserCleanInfo/userList" );
+
+						return false;
+					}	
+				}		
+			}
 			
 			logger.debug( "session get attribuete success" );
 			return true;

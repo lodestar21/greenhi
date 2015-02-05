@@ -1,16 +1,19 @@
 package com.greenhi.admin.main.controller;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.greenhi.admin.user.vo.UserVO;
+import com.greenhi.common.Constants;
 
 /**
  * 메인 화면
@@ -33,16 +36,23 @@ public class MainController {
 	 * @history 
 	 */
 	@RequestMapping(value = "/")
-	public String main(HttpServletRequest req,
+	public String main(HttpServletRequest req,HttpSession session, 
 			HttpServletResponse res, Locale locale, Model model) {
-		
+
 		try {
-			res.sendRedirect( req.getContextPath() + "/main" );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+			UserVO user = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+			if ( user.getUserType() == 102 ) {
+				res.sendRedirect( req.getContextPath() + "/CustCleanInfo/cleanList/1" );
+			} else if ( user.getUserType() == 103) {
+				res.sendRedirect( req.getContextPath() + "/UserCleanInfo/userList" );
+			} else {
+				res.sendRedirect( req.getContextPath() + "/User/list/1" );
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -56,14 +66,22 @@ public class MainController {
 	 * @history 
 	 */
 	@RequestMapping( "/main" )
-	public String main(Locale locale, Model model) {
-			
+	public String main(HttpSession session, HttpServletRequest req, HttpServletResponse res, Locale locale, Model model) {
+
 		try {
-			
+
+			UserVO user = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+			if ( user.getUserType() == 102 ) {
+				res.sendRedirect( req.getContextPath() + "/CustCleanInfo/cleanList/1" );
+			} else if ( user.getUserType() == 103) {
+				res.sendRedirect( req.getContextPath() + "/UserCleanInfo/userList" );
+			} else {
+				res.sendRedirect( req.getContextPath() + "/User/list/1" );
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return "main";
+
+		return null;
 	}
 }
