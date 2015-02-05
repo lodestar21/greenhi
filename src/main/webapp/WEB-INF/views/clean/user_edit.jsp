@@ -26,7 +26,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                	<span style="font-weight: bold;">청소 데이터 등록${constants.SERVER_NAME} </span>
+                	<span style="font-weight: bold;">청소 데이터 등록 </span>
                     <small>청소 데이터 ${ editMode == 'update' ? '수정' : '등록' }</small>
                 </h1>
             </section>
@@ -134,7 +134,7 @@
 									<div style="margin-top: 60px;">
 										<c:choose>
 											<c:when test="${clean.photoImg1 != null && clean.photoImg1 != ''}">
-					                    <img src="${viewImgUrl}${clean.photoImg1}" id="photoImg1Preview" style="height:150px;width:250px;"/>
+					                    <a href="${viewImgUrl}${clean.photoImg1 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg1}" id="photoImg1Preview" style="height:150px;width:250px;"/></a>
 											</c:when>
 											<c:otherwise>
 					                    <img src="" id="photoImg1Preview" style="height:150px;width:250px;"/>
@@ -157,7 +157,7 @@
 									<div style="margin-top: 60px;">
 										<c:choose>
 											<c:when test="${clean.photoImg2 != null && clean.photoImg2 != ''}">
-					                    <img src="${viewImgUrl}${clean.photoImg2}" id="photoImg2Preview" style="height:150px;width:250px;"/>
+					                    <a href="${viewImgUrl}${clean.photoImg2 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg2}" id="photoImg2Preview" style="height:150px;width:250px;"/></a>
 											</c:when>
 											<c:otherwise>
 					                    <img src="" id="photoImg2Preview" style="height:150px;width:250px;"/>
@@ -180,7 +180,7 @@
 									<div style="margin-top: 60px;">
 										<c:choose>
 											<c:when test="${clean.photoImg3 != null && clean.photoImg3 != ''}">
-					                    <img src="${viewImgUrl}${clean.photoImg3}" id="photoImg3Preview" style="height:150px;width:250px;"/>
+					                    <a href="${viewImgUrl}${clean.photoImg3 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg3}" id="photoImg3Preview" style="height:150px;width:250px;"/></a>
 											</c:when>
 											<c:otherwise>
 					                    <img src="" id="photoImg3Preview" style="height:150px;width:250px;"/>
@@ -203,7 +203,7 @@
 									<div style="margin-top: 60px;">
 										<c:choose>
 											<c:when test="${clean.photoImg4 != null && clean.photoImg4 != ''}">
-					                    <img src="${viewImgUrl}${clean.photoImg4}" id="photoImg4Preview" style="height:150px;width:250px;"/>
+					                    <a href="${viewImgUrl}${clean.photoImg4 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg4}" id="photoImg4Preview" style="height:150px;width:250px;"/></a>
 											</c:when>
 											<c:otherwise>
 					                    <img src="" id="photoImg4Preview" style="height:150px;width:250px;"/>
@@ -226,7 +226,7 @@
 									<div style="margin-top: 60px;">
 										<c:choose>
 											<c:when test="${clean.photoImg5 != null && clean.photoImg5 != ''}">
-					                    <img src="${viewImgUrl}${clean.photoImg5}" id="photoImg5Preview" style="height:150px;width:250px;"/>
+					                    <a href="${viewImgUrl}${clean.photoImg5 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg5}" id="photoImg5Preview" style="height:150px;width:250px;"/></a>
 											</c:when>
 											<c:otherwise>
 					                    <img src="" id="photoImg5Preview" style="height:150px;width:250px;"/>

@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.greenhi.admin.bank.service.BankBranchService;
 import com.greenhi.admin.bank.vo.BankBranchVO;
@@ -25,6 +27,7 @@ import com.greenhi.admin.code.service.CodeService;
 import com.greenhi.admin.code.vo.CodeVO;
 import com.greenhi.admin.user.vo.UserVO;
 import com.greenhi.common.Constants;
+import com.greenhi.common.response.ResponseVO;
 
 
 /**
@@ -35,10 +38,10 @@ import com.greenhi.common.Constants;
  * @history 
  */
 @Controller
-@RequestMapping(value = "/CustCleanInfo")
-public class CustCleanInfoController {
+@RequestMapping(value = "/AdminCleanInfo")
+public class AdminCleanInfoController {
 	
-    private static final Logger logger = LoggerFactory.getLogger(CustCleanInfoController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminCleanInfoController.class);
 
     @Autowired
     private CleanInfoService cleanInfoService;
@@ -75,12 +78,14 @@ public class CustCleanInfoController {
 
 		List<CleanInfoVO> list = null;
 
-		UserVO adminUser = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
-		search.setCustUserNo( adminUser.getUserNo() );
-		
 		list = cleanInfoService.list( search );
 		totalCount = cleanInfoService.listCount( search );
 
+		// 고객사코드(600)
+		CodeVO custCodeVo = new CodeVO();
+		custCodeVo.setUperCode( 600 );
+		model.addAttribute( "custCodeList", codeService.listChildCode( custCodeVo ) );
+		
 		// 은행 코드(400)
 		CodeVO cypcdVo = new CodeVO();
 		cypcdVo.setUperCode( 400 );
@@ -98,7 +103,7 @@ public class CustCleanInfoController {
 		model.addAttribute( "totalCount", totalCount );
 		model.addAttribute( "search", search );
 		
-		return "clean/cust_list";
+		return "clean/admin_list";
 	}
 	
 	/**
@@ -137,7 +142,106 @@ public class CustCleanInfoController {
 		model.addAttribute( "bankbranch", bankbranch );
 		model.addAttribute( "clean", cleanVO );
 		
-		return "clean/cust_edit";
+		return "clean/admin_edit";
+	}
+
+	/**
+	 * 청소 데이터 등록
+	 * 
+	 * @param  bankbranch 내용
+	 * @return ResponseVO 결과 내용
+	 * @throws Exception
+	 * @history 
+	 */
+	@ResponseBody
+	@RequestMapping( value = "/addProcess", method = RequestMethod.POST )
+	public ResponseVO addProcess( 
+			@ModelAttribute( "CleanVO" ) CleanVO bankbranch,
+			Model model,
+			HttpServletResponse res,
+			HttpSession session ) throws Exception {
+
+		ResponseVO result = new ResponseVO();
+
+		long branchNo = cleanInfoService.insertClean( bankbranch );
+
+		if ( branchNo < 1 ) {
+			result.setStatus( 400 );
+			result.setMessage( "청소 데이터 등록 중 오류가 발생 했습니다." );
+			return result;
+		} else {
+			result.setStatus( 200 );
+			result.setData( branchNo );
+			result.setMessage( "청소 데이터 등록이 완료 되었습니다." );
+			return result;
+		}
+		
+	}
+
+	/**
+	 * 청소 데이터 수정
+	 * 
+	 * @param  bankbranch 내용
+	 * @return ResponseVO 결과 내용
+	 * @throws Exception
+	 * @history 
+	 */
+	@ResponseBody
+	@RequestMapping( value = "/updateProcess", method = RequestMethod.POST )
+	public ResponseVO updateProcess( 
+			@ModelAttribute( "CleanVO" ) CleanVO bankbranch,
+			Model model,
+			HttpServletResponse res,
+			HttpSession session ) throws Exception {
+
+		ResponseVO result = new ResponseVO();
+
+		UserVO adminUser = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+		bankbranch.setModifyUser( adminUser.getUserNo() );
+		
+		if ( cleanInfoService.updateClean( bankbranch ) < 1 ) {
+			result.setStatus( 400 );
+			result.setMessage( "청소 데이터 수정 중 오류가 발생 했습니다." );
+			return result;
+		} else {
+			result.setStatus( 200 );
+			result.setMessage( "청소 데이터 수정 되었습니다." );
+			return result;
+		}
+		
+	}
+
+	/**
+	 * 청소 데이터 삭제
+	 * 
+	 * @param  bankbranch 내용
+	 * @return ResponseVO 결과 내용
+	 * @throws Exception
+	 * @history 
+	 */
+	@ResponseBody
+	@RequestMapping( value = "/delete", method = RequestMethod.POST )
+	public ResponseVO delete( 
+			@ModelAttribute( "CleanVO" ) CleanVO bankbranch,
+			Model model,
+			HttpServletResponse res,
+			HttpSession session ) throws Exception {
+
+		ResponseVO result = new ResponseVO();
+
+		UserVO adminUser = ( UserVO ) session.getAttribute( Constants.ADMIN_INFO_KEY );
+		bankbranch.setModifyUser( adminUser.getUserNo() );
+		
+		if ( cleanInfoService.deleteClean( bankbranch ) < 1) {
+			result.setStatus( 400 );
+			result.setMessage( "청소 데이터 삭제 중 오류가 발생 했습니다." );
+			return result;
+		} else {
+			result.setStatus( 200 );
+			result.setMessage( "청소 데이터 삭제 되었습니다." );
+			return result;
+		}
+		
 	}
 
 }

@@ -37,13 +37,21 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 
 		HttpSession session = request.getSession();
 		
+		System.out.println("== request.getRequestURI() : " + request.getRequestURI());
+		System.out.println("== request.getRequestURL() : " + request.getRequestURL());
+
 		String[] urlArray = request.getRequestURI().split( "/" );
 		if ( urlArray.length < 1 ) {
 			return true;
 		}
 		String endUrl = urlArray[urlArray.length - 1];
-		
+
 		if ( session.getAttribute( Constants.ADMIN_INFO_KEY ) != null ) {
+
+			logger.info("=== url1 : " + urlArray[0]);
+			logger.info("=== url2 : " + urlArray[1]);
+			logger.info("=== url3 : " + urlArray[2]);
+			logger.info("=== url4 : " + urlArray[3]);
 			
 			logger.debug( "session get attribuete success" );
 			return true;

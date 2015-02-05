@@ -26,6 +26,7 @@
                     </div>
                 </div>
                 <!-- sidebar menu: : style can be found in sidebar.less -->
+                <c:if test="${sessionScope._USER_INFO_.userType == 101}">
                 <ul class="sidebar-menu">
                     <li class="treeview">
                         <a href="#">
@@ -35,7 +36,7 @@
                         <ul class="treeview">
                             <li><a href="${contextPath}/User/list/1"><i class="fa fa-user"></i><span style="margin-left:10px;">회원 관리</span></a></li>
                             <li><a href="${contextPath}/BankBranch/list/1"><i class="fa fa-credit-card" ></i><span style="margin-left:10px;">은행 지점 관리</span></a></li>
-                            <li><a href="${contextPath}/"><i class="fa fa-arrow-right"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
+                            <li><a href="${contextPath}/AdminCleanInfo/cleanList/1"><i class="fa fa-arrow-right"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
                             <li><a href="${contextPath}/Pay/list/1"><i class="fa fa-krw"></i><span style="margin-left:10px;">지급 관리</span></a></li>
                              <li><a href="${contextPath}/Code/list/1"><i class="fa fa-cogs"></i><span style="margin-left:10px;">기준 정보 관리</span></a></li>
                              <li><a href="${contextPath}/DayBankBranch/list"><i class="fa fa-calendar"></i><span style="margin-left:10px;">작업일 관리</span></a></li>
@@ -55,6 +56,28 @@
                         </a>
                     </li>
                 </ul>
+                </c:if>
+                <c:if test="${sessionScope._USER_INFO_.userType == 102}">
+                <ul class="sidebar-menu">
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-edit"></i> <span>은행별 환경 관리</span>
+                          </a>
+                        <ul class="treeview">
+                           <li><a href="${contextPath}/CustCleanInfo/cleanList/1"><i class="fa fa-dashboard"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                </c:if>
+                <c:if test="${sessionScope._USER_INFO_.userType == 103}">
+                <ul class="sidebar-menu">
+                     <li>
+                        <a href="${contextPath}/UserCleanInfo/userList">
+                          <i class="fa fa-camera"></i> <span>청소 데이터 등록</span>
+                        </a>
+                    </li>
+                </ul>
+                </c:if>
             </section>
             <!-- /.sidebar -->
         </aside>

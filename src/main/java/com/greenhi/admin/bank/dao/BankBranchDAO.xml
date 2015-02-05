@@ -75,7 +75,7 @@
             	AND A.BRANCH_ADDRESS LIKE CONCAT('%', #{searchWord}, '%')
             </if>
             <if test="searchField == 2">
-            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME LIKE CONCAT('%', #{searchWord}, '%'))
             </if>
         </if>
         <if test="orderBy == 'ASC'">
@@ -122,7 +122,7 @@
             	AND A.BRANCH_ADDRESS LIKE CONCAT('%', #{searchWord}, '%')
             </if>
             <if test="searchField == 2">
-            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME = LIKE CONCAT('%', #{searchWord}, '%'))
+            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME LIKE CONCAT('%', #{searchWord}, '%'))
             </if>
         </if>
     </select>

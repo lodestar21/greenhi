@@ -23,6 +23,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.greenhi.common.Constants;
+import com.greenhi.common.util.StringUtil;
 
 @Controller
 @RequestMapping( "/Upload" )
@@ -70,10 +71,14 @@ public class UploadController {
 				for ( Directory mataFile : directories ) {
 					 Collection<Tag> tags = mataFile.getTags();
 					 for ( Tag tag : tags ) {
-						 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+						 if ( tag.getTagName().equals( "Date/Time" ) ) {
 							 tagDesc = tag.getDescription();
 						 }
-						 logger.info("=== tag : " + tag);
+						 if ( StringUtil.isEmpty( tagDesc ) ) {
+							 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+								 tagDesc = tag.getDescription();
+							 }
+						 }
 					 }
 				}
 				
@@ -144,8 +149,13 @@ public class UploadController {
 				for ( Directory mataFile : directories ) {
 					 Collection<Tag> tags = mataFile.getTags();
 					 for ( Tag tag : tags ) {
-						 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+						 if ( tag.getTagName().equals( "Date/Time" ) ) {
 							 tagDesc = tag.getDescription();
+						 }
+						 if ( StringUtil.isEmpty( tagDesc ) ) {
+							 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+								 tagDesc = tag.getDescription();
+							 }
 						 }
 					 }
 				}
@@ -217,8 +227,13 @@ public class UploadController {
 				for ( Directory mataFile : directories ) {
 					 Collection<Tag> tags = mataFile.getTags();
 					 for ( Tag tag : tags ) {
-						 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+						 if ( tag.getTagName().equals( "Date/Time" ) ) {
 							 tagDesc = tag.getDescription();
+						 }
+						 if ( StringUtil.isEmpty( tagDesc ) ) {
+							 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+								 tagDesc = tag.getDescription();
+							 }
 						 }
 					 }
 				}
@@ -290,8 +305,13 @@ public class UploadController {
 				for ( Directory mataFile : directories ) {
 					 Collection<Tag> tags = mataFile.getTags();
 					 for ( Tag tag : tags ) {
-						 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+						 if ( tag.getTagName().equals( "Date/Time" ) ) {
 							 tagDesc = tag.getDescription();
+						 }
+						 if ( StringUtil.isEmpty( tagDesc ) ) {
+							 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+								 tagDesc = tag.getDescription();
+							 }
 						 }
 					 }
 				}
@@ -363,8 +383,13 @@ public class UploadController {
 				for ( Directory mataFile : directories ) {
 					 Collection<Tag> tags = mataFile.getTags();
 					 for ( Tag tag : tags ) {
-						 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+						 if ( tag.getTagName().equals( "Date/Time" ) ) {
 							 tagDesc = tag.getDescription();
+						 }
+						 if ( StringUtil.isEmpty( tagDesc ) ) {
+							 if ( tag.getTagName().equals( "Date/Time Original" ) ) {
+								 tagDesc = tag.getDescription();
+							 }
 						 }
 					 }
 				}

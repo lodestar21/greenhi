@@ -101,6 +101,27 @@
         			<if test="cleanDate != null and cleanDate != ''">
 					   AND B.CLEAN_DATE = #{cleanDate}
         			</if>
+			        <if test="siteName != null and siteName != ''">
+			            AND A.SITE_NAME LIKE CONCAT('%', #{siteName}, '%')
+			        </if>
+	       			<if test="custCode > 0">
+					   AND A.CUST_CODE = #{custCode}
+	       			</if>
+	       			<if test="bankCode > 0">
+					   AND A.BANK_CODE = #{bankCode}
+	       			</if>
+	       			<if test="localCode > 0">
+					   AND A.LOCAL_CODE = #{localCode}
+	       			</if>
+	       			<if test="custUserNo > 0">
+					   AND A.CUST_CODE IN (SELECT CUST_CODE FROM T_USER WHERE USER_NO = #{custUserNo})
+	       			</if>
+		            <if test="searchField == 1">
+		            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME LIKE CONCAT('%', #{searchWord}, '%'))
+		            </if>
+		            <if test="searchField == 2">
+		            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE EMAIL LIKE CONCAT('%', #{searchWord}, '%'))
+		            </if>
 				  ) A
 				WHERE 1 = 1
 				<if test='isClean == "Y"'>
@@ -113,15 +134,6 @@
 		            AND A.CLEAN_NO < 1
 		        ]]>
 		        </if>
-       			<if test="bankCode > 0">
-				   AND A.BANK_CODE = #{bankCode}
-       			</if>
-       			<if test="localCode > 0">
-				   AND A.LOCAL_CODE = #{localCode}
-       			</if>
-       			<if test="custUserNo > 0">
-				   AND A.CUST_CODE IN (SELECT CUST_CODE FROM T_USER WHERE USER_NO = #{custUserNo})
-       			</if>
 				ORDER BY A.CLEAN_DATE DESC, A.custCodeName, A.bankCodeName
 	        <if test="isExcel == false">
 	        	LIMIT #{startIdx}, #{recordPerPage}
@@ -153,6 +165,27 @@
         			<if test="cleanDate != null and cleanDate != ''">
 					   AND B.CLEAN_DATE = #{cleanDate}
         			</if>
+			        <if test="siteName != null and siteName != ''">
+			            AND A.SITE_NAME LIKE CONCAT('%', #{siteName}, '%')
+			        </if>
+	       			<if test="custCode > 0">
+					   AND A.CUST_CODE = #{custCode}
+	       			</if>
+	       			<if test="bankCode > 0">
+					   AND A.BANK_CODE = #{bankCode}
+	       			</if>
+	       			<if test="localCode > 0">
+					   AND A.LOCAL_CODE = #{localCode}
+	       			</if>
+	       			<if test="custUserNo > 0">
+					   AND A.CUST_CODE IN (SELECT CUST_CODE FROM T_USER WHERE USER_NO = #{custUserNo})
+	       			</if>
+		            <if test="searchField == 1">
+		            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE USER_NAME LIKE CONCAT('%', #{searchWord}, '%'))
+		            </if>
+		            <if test="searchField == 2">
+		            	AND A.CLEAN_USER_NO IN (SELECT USER_NO FROM T_USER WHERE EMAIL LIKE CONCAT('%', #{searchWord}, '%'))
+		            </if>
 				  ) A
 				WHERE 1 = 1
 				<if test='isClean == "Y"'>
@@ -165,15 +198,6 @@
 		            AND A.CLEAN_NO < 1
 		        ]]>
 		        </if>
-       			<if test="bankCode > 0">
-				   AND A.BANK_CODE = #{bankCode}
-       			</if>
-       			<if test="localCode > 0">
-				   AND A.LOCAL_CODE = #{localCode}
-       			</if>
-       			<if test="custUserNo > 0">
-				   AND A.CUST_CODE IN (SELECT CUST_CODE FROM T_USER WHERE USER_NO = #{custUserNo})
-       			</if>
     </select>
     
     <select id="get" parameterType="com.greenhi.admin.clean.vo.CleanVO" resultType="com.greenhi.admin.clean.vo.CleanVO">

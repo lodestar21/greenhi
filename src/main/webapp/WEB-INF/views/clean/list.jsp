@@ -92,11 +92,11 @@
                                         	<c:if test="${item.cleanNo>0}"><span class="label label-success">완료</span></c:if>
                                         	<c:if test="${item.cleanNo<1}"><span class="label label-danger">미완료</span></c:if>
                                         </td>
-                                        <td style="text-align: center;"><span class="label label-success">${item.stateCodeName1}</span></td>
-                                        <td style="text-align: center;"><span class="label label-warning">${item.stateCodeName2}</span></td>
-                                        <td style="text-align: center;"><span class="label label-danger">${item.stateCodeName3}</span></td>
-                                        <td style="text-align: center;"><span class="label label-success">${item.stateCodeName4}</span></td>
-                                        <td style="text-align: center;"><span class="label label-success">${item.stateCodeName5}</span></td>
+                                        <td style="text-align: center;"><span class="label label-${item.stateCode1 == '701' ? 'success' : item.stateCode1 == '702' ? 'warning' : 'danger'}">${item.stateCodeName1}</span></td>
+                                        <td style="text-align: center;"><span class="label label-${item.stateCode2 == '701' ? 'success' : item.stateCode2 == '702' ? 'warning' : 'danger'}">${item.stateCodeName2}</span></td>
+                                        <td style="text-align: center;"><span class="label label-${item.stateCode3 == '701' ? 'success' : item.stateCode3 == '702' ? 'warning' : 'danger'}">${item.stateCodeName3}</span></td>
+                                        <td style="text-align: center;"><span class="label label-${item.stateCode4 == '701' ? 'success' : item.stateCode4 == '702' ? 'warning' : 'danger'}">${item.stateCodeName4}</span></td>
+                                        <td style="text-align: center;"><span class="label label-${item.stateCode5 == '701' ? 'success' : item.stateCode5 == '702' ? 'warning' : 'danger'}">${item.stateCodeName5}</span></td>
                                         <td style="text-align: center;"><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                     </tr>
 									</c:forEach>

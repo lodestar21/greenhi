@@ -41,7 +41,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="${contextPath}/"><i class="fa fa-dashboard"></i>Home</a></li>
-                    <li><a href="${contextPath}/CustCleanInfo/cleanList/1">청소 진행 현황 조회</a></li>
+                    <li><a href="${contextPath}/AdminCleanInfo/cleanList/1">청소 진행 현황 조회</a></li>
                 </ol>
             </section>
 			
@@ -51,10 +51,17 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
-            				<form name="searchFrom" id="searchFrom" method="post" action="${contextPath}/CustCleanInfo/cleanList/1" id="search">
+            				<form name="searchFrom" id="searchFrom" method="post" action="${contextPath}/AdminCleanInfo/cleanList/1" id="search">
                             <div class="box-header" style="margin-top: 10px;margin-left: 25px;">
                             	<label style="margin: 5px;">작업일</label>
                             	<input type="text" class="form-control input-sm" id="cleanDate" name="cleanDate" value="${search.cleanDate}" style="width:100px;display: table-caption;">
+								<div style="margin-top: 10px;margin-bottom: 10px;"></div>
+								<select id="custCode" name="custCode" class="form-control input-sm" style="width:100px;display: table-caption;">
+									<option value="0">고객사명</option>
+									<c:forEach var="item" items="${custCodeList}" varStatus="status">
+									<option value="${item.codeId}" <c:if test="${item.codeId == search.custCode}">selected</c:if>>${item.codeName}</option>
+									</c:forEach>
+								</select>
 								<select id="bankCode" name="bankCode" class="form-control input-sm" style="width:100px;display: table-caption;">
 									<option value="0">은행명</option>
 									<c:forEach var="item" items="${bankCodeList}" varStatus="status">
@@ -72,7 +79,12 @@
 									<option value="Y" <c:if test="${search.isClean == 'Y'}">selected</c:if>>완료</option>
 									<option value="N" <c:if test="${search.isClean == 'N'}">selected</c:if>>미완료</option>
 								</select>
-								<input type="text" class="form-control input-sm" id="siteName" name="siteName" value="${search.siteName}" placeholder="사이트명.." style="width:150px;display: table-caption;">
+								<select id="searchField" name="searchField" class="form-control input-sm" style="width:100px;display: table-caption;">
+									<option value="0">전체</option>
+									<option value="1" <c:if test="${search.searchField == '1'}">selected</c:if>>담당자명</option>
+									<option value="2" <c:if test="${search.searchField == '2'}">selected</c:if>>이메일</option>
+								</select>
+								<input type="text" class="form-control input-sm" id="searchWord" name="searchWord" value="${search.searchWord}" style="width:150px;display: table-caption;">
 								<button type="button" class="btn btn-primary btn-sm" onclick="javascript:search();" style="margin-left: 10px;">조회</button>
                             </div><!-- /.box-header -->
                             </form>
@@ -104,10 +116,7 @@
                                         <td style="text-align: center;">${item.cleanDate}</td>
                                         <td style="text-align: center;">${item.bankCodeName}</td>
                                         <td style="text-align: center;">${item.localCodeName}</td>
-                                        <td style="text-align: center;">
-                                        	<c:if test="${item.cleanNo>0}"><a href="javascript:clean.getCust('${item.cleanDate}', ${item.branchNo}, ${item.cleanNo});">${item.siteName}</a></c:if>
-                                        	<c:if test="${item.cleanNo<1}">${item.siteName}</c:if>
-                                        </td>
+                                        <td style="text-align: center;"><a href="javascript:clean.getCust('${item.cleanDate}', ${item.branchNo}, ${item.cleanNo});">${item.siteName}</a></td>
                                         <td style="text-align: center;">
                                         	<c:if test="${item.cleanNo>0}"><span class="label label-success">완료</span></c:if>
                                         	<c:if test="${item.cleanNo<1}"><span class="label label-danger">미완료</span></c:if>
@@ -123,10 +132,10 @@
                                     </tbody>
 								</table>
 							</div>
-					 		<c:import url="../import/paging.jsp?pageNum=${pageNum}&totalCount=${totalCount}&pm=clean.listPageCust" />
+					 		<c:import url="../import/paging.jsp?pageNum=${pageNum}&totalCount=${totalCount}&pm=clean.listPageAdmin" />
                         </div>
 					</div>
-					<form name="getForm" id="getForm" action="${contextPath}/CustCleanInfo/get" id="searchGet">
+					<form name="getForm" id="getForm" action="${contextPath}/AdminCleanInfo/get" id="searchGet">
                            	<input type="hidden" id="cleanDateParam" name="cleanDateParam" value="" />
                            	<input type="hidden" id="branchNoParam" name=branchNoParam value="" />
                            	<input type="hidden" id="cleanNoParam" name=cleanNoParam value="" />
