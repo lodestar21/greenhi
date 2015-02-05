@@ -143,9 +143,9 @@
                                             <td>
                                             	<c:choose>
 	                                            	<c:when test="${!empty(clean.photoImg1) && clean.photoImg1 != ''}">
-	                                            		<a href="${viewImgUrl}${clean.photoImg1 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg1 }" alt="..." class='margin' style="height:100px;width:100px;"/></a>
+	                                            		<a href="${viewImgUrl}${clean.photoImg1 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg1 }" id="photoImg1Preview" alt="..." class='margin' style="height:100px;width:100px;"/></a>
 	                                            	</c:when>
-	                                            	<c:otherwise><img src="http://placehold.it/100x100" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
+	                                            	<c:otherwise><img src="http://placehold.it/100x100" id="photoImg1Preview" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
                                             	</c:choose>
                                             	<div style="margin-left: 15px;">
 	                                            	<label for="photoImg1Upload" class="btn btn-default btn-sm">이미지 업로드</label>
@@ -157,9 +157,9 @@
                                             <td>
                                             	<c:choose>
 	                                            	<c:when test="${!empty(clean.photoImg2) && clean.photoImg2 != ''}">
-	                                            		<a href="${viewImgUrl}${clean.photoImg2 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg2 }" alt="..." class='margin' style="height:100px;width:100px;" /></a>
+	                                            		<a href="${viewImgUrl}${clean.photoImg2 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg2 }" id="photoImg2Preview" alt="..." class='margin' style="height:100px;width:100px;" /></a>
 	                                            	</c:when>
-	                                            	<c:otherwise><img src="http://placehold.it/100x100" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
+	                                            	<c:otherwise><img src="http://placehold.it/100x100" id="photoImg2Preview" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
                                             	</c:choose>
                                             	<div style="margin-left: 15px;">
 	                                            	<label for="photoImg2Upload" class="btn btn-default btn-sm">이미지 업로드</label>
@@ -171,9 +171,9 @@
                                             <td>
                                             	<c:choose>
 	                                            	<c:when test="${!empty(clean.photoImg3) && clean.photoImg3 != ''}">
-	                                            		<a href="${viewImgUrl}${clean.photoImg3 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg3 }" alt="..." class='margin' style="height:100px;width:100px;" /></a>
+	                                            		<a href="${viewImgUrl}${clean.photoImg3 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg3 }" id="photoImg3Preview" alt="..." class='margin' style="height:100px;width:100px;" /></a>
 	                                            	</c:when>
-	                                            	<c:otherwise><img src="http://placehold.it/100x100" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
+	                                            	<c:otherwise><img src="http://placehold.it/100x100" id="photoImg3Preview" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
                                             	</c:choose>
                                             	<div style="margin-left: 15px;">
 	                                            	<label for="photoImg3Upload" class="btn btn-default btn-sm">이미지 업로드</label>
@@ -185,9 +185,9 @@
                                             <td>
                                             	<c:choose>
 	                                            	<c:when test="${!empty(clean.photoImg4) && clean.photoImg4 != ''}">
-	                                            		<a href="${viewImgUrl}${clean.photoImg4 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg4 }" alt="..." class='margin' style="height:100px;width:100px;" /></a>
+	                                            		<a href="${viewImgUrl}${clean.photoImg4 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg4 }" id="photoImg4Preview" alt="..." class='margin' style="height:100px;width:100px;" /></a>
 	                                            	</c:when>
-	                                            	<c:otherwise><img src="http://placehold.it/100x100" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
+	                                            	<c:otherwise><img src="http://placehold.it/100x100" id="photoImg4Preview" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
                                             	</c:choose>
                                             	<div style="margin-left: 15px;">
 	                                            	<label for="photoImg4Upload" class="btn btn-default btn-sm">이미지 업로드</label>
@@ -199,9 +199,9 @@
                                             <td>
                                             	<c:choose>
 	                                            	<c:when test="${!empty(clean.photoImg5) && clean.photoImg5 != ''}">
-	                                            		<a href="${viewImgUrl}${clean.photoImg5 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg5 }" alt="..." class='margin' style="height:100px;width:100px;" /></a>
+	                                            		<a href="${viewImgUrl}${clean.photoImg5 }" target="_blank"><img src="${viewImgUrl}${clean.photoImg5 }" id="photoImg5Preview" alt="..." class='margin' style="height:100px;width:100px;" /></a>
 	                                            	</c:when>
-	                                            	<c:otherwise><img src="http://placehold.it/100x100" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
+	                                            	<c:otherwise><img src="http://placehold.it/100x100" id="photoImg5Preview" alt="..." class='margin' style="height:100px;width:100px;" /></c:otherwise>
                                             	</c:choose>
                                             	<div>
 	                                            	<label for="photoImg5Upload" class="btn btn-default btn-sm">이미지 업로드</label>
