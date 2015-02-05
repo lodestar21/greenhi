@@ -42,19 +42,6 @@
                              <li><a href="${contextPath}/DayBankBranch/list"><i class="fa fa-calendar"></i><span style="margin-left:10px;">작업일 관리</span></a></li>
                        </ul>
                     </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-edit"></i> <span>은행별 환경 관리</span>
-                          </a>
-                        <ul class="treeview">
-                           <li><a href="${contextPath}/CustCleanInfo/cleanList/1"><i class="fa fa-dashboard"></i><span style="margin-left:10px;">청소 진행 현황</span></a></li>
-                        </ul>
-                    </li>
-                     <li>
-                        <a href="${contextPath}/UserCleanInfo/userList">
-                          <i class="fa fa-camera"></i> <span>청소 데이터 등록</span>
-                        </a>
-                    </li>
                 </ul>
                 </c:if>
                 <c:if test="${sessionScope._USER_INFO_.userType == 102}">
